@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects — Ryu Tran</title>
+  <meta name="description" content="Technical projects by Ryu Tran: research, coursework and personal builds.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="about.html">About</a>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="goals.html">Career goals</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <header class="page-head">
+    <p class="label">Projects</p>
+    <h1>Things I've built</h1>
+    <p class="lede">Research, personal builds and a hackathon. Each write-up covers the problem, how I approached it,
+      and what actually happened, including what didn't work. Newest first.</p>
+  </header>
+
+  <!-- To add a project: copy projects/_template.html, then add an <li> here. -->
+  <ul class="work">
+    <li>
+      <a href="projects/layered-clb.html">
+        <span class="idx">01</span>
+        <div>
+          <h3>A logic block that spans two layers</h3>
+          <p>Extended VTR and OpenFPGA so one FPGA logic block can split its ten LUTs across two stacked dies, then took it through an ASIC flow and fixed a port-width bug in the LaZagna 3D FPGA framework.</p>
+          <p class="meta">Research · Sharc Lab · Aug 2026 – present · C++ · Verilog · VPR · OpenROAD</p>
+        </div>
+        <img class="thumb" src="assets/img/clb-two-layer.svg" alt="" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a href="projects/pose.html">
+        <span class="idx">02</span>
+        <div>
+          <h3>pose. — a posture-tracking wearable</h3>
+          <p>ESP32 wearable that detects slouching on-device and syncs over BLE to a web dashboard. I owned the hardware and firmware. Best Use of TigerData at HackGT 13.</p>
+          <p class="meta">Hackathon · Sep 2026 · C++ · ESP32 · BLE · I²C</p>
+        </div>
+        <img class="thumb" src="assets/img/pose-dashboard.png" alt="" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a href="projects/gpu-logic-sim.html">
+        <span class="idx">03</span>
+        <div>
+          <h3>A logic simulator on the GPU</h3>
+          <p>CUDA gate-level simulator running a 20,170-gate CPU netlist. A persistent-kernel rewrite took it from 2.5× slower than the CPU to 2× faster.</p>
+          <p class="meta">Personal · May – Jun 2026 · CUDA · C++ · Yosys</p>
+        </div>
+        <img class="thumb" src="assets/img/gpusim-benchmark.svg" alt="" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a href="projects/risc-cpu.html">
+        <span class="idx">04</span>
+        <div>
+          <h3>A 16-bit CPU, from ISA to FPGA</h3>
+          <p>Five-stage pipelined RISC CPU with a custom 12-instruction ISA, forwarding, stalls and branch flushing, running Fibonacci live on a Tang Nano 9K.</p>
+          <p class="meta">Personal · Feb – May 2026 · SystemVerilog · Python · FPGA</p>
+        </div>
+        <img class="thumb" src="assets/img/cpu-pipeline.png" alt="" loading="lazy">
+      </a>
+    </li>
+    <li>
+      <a href="projects/discovery.html">
+        <span class="idx">—</span>
+        <div>
+          <h3><span class="todo">Discovery Project title</span></h3>
+          <p><span class="todo">One or two sentences: what you built and what came out of it.</span></p>
+          <p class="meta">Discovery Project · ECE 1100 · Fall 2026</p>
+        </div>
+        <img class="thumb" src="assets/img/discovery-thumb.svg" alt="" loading="lazy">
+      </a>
+    </li>
+  </ul>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

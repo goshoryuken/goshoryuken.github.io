@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ryu Tran — ECE, Georgia Tech</title>
+  <meta name="description" content="Ryu Tran, electrical engineering student at Georgia Tech: 3D FPGA research, ASIC physical design, CPUs and GPU simulation.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="goals.html">Career goals</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="hero">
+    <div>
+      <p class="label">Electrical &amp; Computer Engineering · Georgia Tech</p>
+      <h1>I design hardware, and the tools that build it.</h1>
+      <p class="lede">
+        I'm an electrical engineering student at Georgia Tech. In the Sharc Lab I'm building a logic block
+        that spans two stacked dies of a 3D FPGA; on the SiliconJackets team I take a RISC-V CPU from RTL to
+        routed layout. On my own time I build CPUs and the tools that simulate them. This site collects that
+        work, where I want to go, and how I plan to get there.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="projects/layered-clb.html">Read the CLB project</a>
+        <a class="btn" href="resume.html">Resume</a>
+      </div>
+    </div>
+    <img class="portrait" src="assets/img/portrait.svg" alt="Portrait of Ryu Tran" width="400" height="500">
+  </section>
+
+  <dl class="spec">
+    <dt>Program</dt>
+    <dd>B.S. Electrical Engineering, Georgia Institute of Technology · May 2029 · GPA 3.75</dd>
+    <dt>Focus</dt>
+    <dd>Digital design, computer architecture, physical design, FPGAs</dd>
+    <dt>Now</dt>
+    <dd>Undergraduate researcher, Sharc Lab (3D FPGAs) · ASIC physical design, SiliconJackets</dd>
+    <dt>Toolbox</dt>
+    <dd>SystemVerilog, C++, CUDA, Python, Tcl · Cadence Innovus &amp; Xcelium, Synopsys DC, OpenROAD, Yosys</dd>
+    <dt>Seeking</dt>
+    <dd><span class="todo">Summer 2027</span> internships in digital design, verification or physical design</dd>
+  </dl>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>Selected work</h2>
+      <a href="projects.html">All projects →</a>
+    </div>
+    <ul class="work">
+    <li>
+        <a href="projects/layered-clb.html">
+          <span class="idx">01</span>
+          <div>
+            <h3>A logic block that spans two layers</h3>
+            <p>Extended VTR and OpenFPGA so one FPGA logic block can split its ten LUTs across two stacked dies, then took it through an ASIC flow and fixed a port-width bug in the LaZagna 3D FPGA framework.</p>
+            <p class="meta">Research · Sharc Lab · Aug 2026 – present · C++ · Verilog · VPR · OpenROAD</p>
+          </div>
+          <img class="thumb" src="assets/img/clb-two-layer.svg" alt="" loading="lazy">
+        </a>
+      </li>
+    <li>
+        <a href="projects/gpu-logic-sim.html">
+          <span class="idx">03</span>
+          <div>
+            <h3>A logic simulator on the GPU</h3>
+            <p>CUDA gate-level simulator running a 20,170-gate CPU netlist. A persistent-kernel rewrite took it from 2.5× slower than the CPU to 2× faster.</p>
+            <p class="meta">Personal · May – Jun 2026 · CUDA · C++ · Yosys</p>
+          </div>
+          <img class="thumb" src="assets/img/gpusim-benchmark.svg" alt="" loading="lazy">
+        </a>
+      </li>
+    <li>
+        <a href="projects/risc-cpu.html">
+          <span class="idx">04</span>
+          <div>
+            <h3>A 16-bit CPU, from ISA to FPGA</h3>
+            <p>Five-stage pipelined RISC CPU with a custom 12-instruction ISA, forwarding, stalls and branch flushing, running Fibonacci live on a Tang Nano 9K.</p>
+            <p class="meta">Personal · Feb – May 2026 · SystemVerilog · Python · FPGA</p>
+          </div>
+          <img class="thumb" src="assets/img/cpu-pipeline.png" alt="" loading="lazy">
+        </a>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

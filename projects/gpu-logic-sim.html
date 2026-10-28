@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPU Logic Simulator — Ryu Tran</title>
+  <meta name="description" content="A CUDA gate-level simulator that runs a 20,170-gate CPU netlist, and why the first GPU version was slower than the CPU.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="../about.html">About</a>
+      <a href="../projects.html" aria-current="page">Projects</a>
+      <a href="../goals.html">Career goals</a>
+      <a href="../resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <header class="page-head">
+    <p class="label"><a href="../projects.html">Projects</a> / 03</p>
+    <h1>A logic simulator on the GPU</h1>
+    <p class="lede">A GPU has thousands of cores, so gate-level simulation should be fast on one. My first
+      version was 2.5× <em>slower</em> than the CPU. Fixing that taught me more than the simulator did.</p>
+  </header>
+
+  <div class="article">
+    <div class="body">
+
+      <h2>The idea</h2>
+      <p>Gate-level simulation evaluates every logic gate in a circuit, every clock cycle. Inside one
+        "level" of logic, no gate depends on another, so in principle they can all be evaluated at the same
+        time. I wanted to find out how much that parallelism is actually worth on real hardware, using a real
+        circuit: the <a href="risc-cpu.html">16-bit pipelined CPU</a> I'd built the semester before.</p>
+
+      <h2>How it works</h2>
+      <figure>
+        <img src="../assets/img/gpusim-arch.png" alt="Flow diagram: Verilog goes through Yosys, a parser and a levelizer, then to either a CPU simulator or a GPU simulator using flat arrays, and out to VCD results." width="1027" height="1156" loading="lazy">
+        <figcaption><b>FIG. 1</b> The simulator pipeline, from SystemVerilog to waveform.</figcaption>
+      </figure>
+      <ol class="flow">
+        <li><strong>Synthesize</strong><span>Yosys flattens the CPU into single-bit gate primitives: 20,170 gates and 8,676 flip-flops.</span></li>
+        <li><strong>Parse</strong><span>A C++ parser reads the structural netlist into gate and wire data structures.</span></li>
+        <li><strong>Levelize</strong><span>Kahn's algorithm assigns every gate a dependency level, so no gate is evaluated before its inputs are ready.</span></li>
+        <li><strong>Flatten for the GPU</strong><span>The netlist becomes plain integer arrays (gate types, input IDs, output IDs, offsets, signal values) so GPU threads read memory in a predictable pattern.</span></li>
+        <li><strong>Simulate and dump</strong><span>The CPU or GPU runs the cycles; results go to a VCD file I inspect in GTKWave.</span></li>
+      </ol>
+
+      <h2>Why the GPU lost, then won</h2>
+      <p>Version 1 launched one CUDA kernel per logic level, per cycle: about 500,000 kernel launches for
+        10,000 cycles. Each launch only had a few hundred gates of work, so the GPU spent its time being
+        scheduled instead of computing.</p>
+      <p>Version 2 launches <em>one</em> persistent kernel for the whole simulation. Threads use
+        grid-stride loops to cover any number of gates per level, and synchronize between levels on the
+        device with Cooperative Groups (<code>grid.sync()</code>) instead of returning to the host. That cut
+        GPU runtime by 4.7× and made it about 2× faster than the CPU at 100,000 cycles.</p>
+
+      <figure>
+        <img src="../assets/img/gpusim-benchmark.svg" alt="Log-log chart of runtime vs cycles. GPU v1 is slowest at every size. GPU v2 overtakes the CPU around 500 cycles and is about twice as fast at 100,000 cycles." width="740" height="340" loading="lazy">
+        <figcaption><b>FIG. 2</b> Runtime on a Ryzen 5 7600X and RTX 3060 Ti. At 100,000 cycles: CPU 23.3 s,
+          GPU v1 53.2 s, GPU v2 11.3 s. Below ~500 cycles the one-time setup cost still makes the CPU faster.</figcaption>
+      </figure>
+
+      <h2>The bug that only showed up on the GPU</h2>
+      <p>For a while the GPU gave slightly different answers from run to run. The cause wasn't in my CUDA
+        code at all. When Yosys flattens submodules, internal wires in different modules can end up with the
+        same auto-generated name, which silently creates nets with more than one driver. On the CPU the
+        evaluation order happened to hide it; on the GPU, which thread wrote last changed every run. Adding a
+        Yosys <code>autoname</code> pass after all the other transformations fixed it, and I verified a
+        bit-exact match between CPU and GPU on every signal's final state.</p>
+
+      <figure>
+        <img src="../assets/img/gpusim-gtkwave.png" alt="GTKWave waveform output from the simulator." width="2256" height="649" loading="lazy">
+        <figcaption><b>FIG. 3</b> Simulator output in GTKWave.</figcaption>
+      </figure>
+
+      <h2>What I learned</h2>
+      <p class="callout">More cores don't help if you spend your time scheduling them.</p>
+      <p>Speedup depends on how wide the circuit is, not just how big it is: a narrow, deep circuit can't
+        keep the GPU busy. And nondeterminism is a symptom, not a bug report; the real problem was upstream,
+        in the netlist.</p>
+    </div>
+
+    <aside>
+      <div class="sticky">
+        <dl class="spec">
+          <dt>Type</dt><dd>Personal project</dd>
+          <dt>When</dt><dd>May – Jun 2026</dd>
+          <dt>Built with</dt><dd>CUDA, C++, Yosys, GTKWave</dd>
+          <dt>Result</dt><dd>4.7× faster than GPU v1; 2× faster than CPU at 100k cycles</dd>
+          <dt>Code</dt><dd><a href="https://github.com/goshoryuken/gpu-logic-sim">github.com/goshoryuken/gpu-logic-sim</a></dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

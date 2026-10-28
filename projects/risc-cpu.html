@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>16-Bit Pipelined CPU — Ryu Tran</title>
+  <meta name="description" content="A 5-stage pipelined 16-bit RISC CPU in SystemVerilog, with a custom ISA and assembler, running Fibonacci live on a Tang Nano 9K FPGA.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="../about.html">About</a>
+      <a href="../projects.html" aria-current="page">Projects</a>
+      <a href="../goals.html">Career goals</a>
+      <a href="../resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <header class="page-head">
+    <p class="label"><a href="../projects.html">Projects</a> / 04</p>
+    <h1>A 16-bit CPU, from ISA to FPGA</h1>
+    <p class="lede">I designed my own instruction set, built a five-stage pipelined processor for it in
+      SystemVerilog, wrote an assembler, and put it on a small FPGA board where it counts Fibonacci numbers
+      until it overflows.</p>
+  </header>
+
+  <div class="article">
+    <div class="body">
+
+      <figure>
+        <img src="../assets/img/cpu-pipeline.png" alt="Block diagram of the five pipeline stages IF, ID, EX, MEM, WB separated by pipeline registers, with a stall unit and a forwarding unit." width="1417" height="1100">
+        <figcaption><b>FIG. 1</b> The pipeline: fetch, decode, execute, memory, write-back, plus the stall and
+          forwarding units that keep it correct.</figcaption>
+      </figure>
+
+      <h2>The design</h2>
+      <p>The ISA has 12 instructions: ADD, SUB, AND, OR, XOR, NOT, shift left and right, LOAD, STORE, BEQ and
+        HALT. A small Python assembler turns readable assembly into the hex the instruction memory loads.</p>
+      <p>Pipelining means up to five instructions are in flight at once, which creates hazards. I handled
+        three kinds:</p>
+      <ul>
+        <li><strong>Data hazards.</strong> A forwarding unit spots when an instruction needs a result still
+          sitting in the EX/MEM or MEM/WB register and routes it straight into the ALU inputs.</li>
+        <li><strong>Load-use hazards.</strong> When a value is needed the cycle after it's loaded, forwarding
+          can't help, so the pipeline stalls for one cycle: PC and IF/ID freeze, ID/EX is zeroed.</li>
+        <li><strong>Branches.</strong> BEQ resolves in EX, so two wrong instructions have already been fetched
+          when a branch is taken. They're flushed, at a 2-cycle penalty.</li>
+      </ul>
+
+      <figure>
+        <img src="../assets/img/cpu-gtkwave.png" alt="GTKWave waveform of the CPU testbench showing pipeline signals." width="1363" height="521" loading="lazy">
+        <figcaption><b>FIG. 2</b> Testbench run in Icarus Verilog, viewed in GTKWave.</figcaption>
+      </figure>
+
+      <h2>On real hardware</h2>
+      <p>The CPU runs on a Gowin Tang Nano 9K on a divided clock (about 1.6 Hz) so you can watch each value
+        appear. A double-dabble converter turns the 16-bit result into five BCD digits, and a driver I wrote
+        for the TM1637's two-wire serial protocol (start/stop, byte transfer, ACK, brightness) puts them on two
+        4-digit seven-segment displays. After 46,368 the next Fibonacci number doesn't fit in 16 bits, and a
+        red LED lights up to show the overflow.</p>
+      <p><a href="https://github.com/goshoryuken/pipelined-risc-cpu#demo">Watch the demo video on GitHub →</a></p>
+
+      <h2>What broke on the way</h2>
+      <p>Simulation passing turned out to be the easy part:</p>
+      <ul>
+        <li><strong>Garbage in memory.</strong> I'd initialized memory with an <code>initial</code> block, which
+          simulators honor and the FPGA silently ignores. Replaced it with a synchronous reset.</li>
+        <li><strong>Synthesis crash.</strong> The data memory used the full 16-bit address for a 256-entry
+          array, so the tool tried to build a 65,536-way mux. Slicing the address to 8 bits fixed it.</li>
+        <li><strong>Reset stuck on.</strong> The board's button is active-low; my CPU expected active-high.</li>
+      </ul>
+
+      <h2>What I learned</h2>
+      <p>Hardware has two truths, simulation and silicon, and they don't always agree. This CPU later became
+        the benchmark circuit for my <a href="gpu-logic-sim.html">GPU logic simulator</a>. Next on its roadmap
+        are an instruction cache and a proper class-based, constrained-random testbench.</p>
+    </div>
+
+    <aside>
+      <div class="sticky">
+        <dl class="spec">
+          <dt>Type</dt><dd>Personal project</dd>
+          <dt>When</dt><dd>Feb – May 2026</dd>
+          <dt>Built with</dt><dd>SystemVerilog, Python, Icarus Verilog, Gowin EDA, Tang Nano 9K</dd>
+          <dt>Code</dt><dd><a href="https://github.com/goshoryuken/pipelined-risc-cpu">github.com/goshoryuken/pipelined-risc-cpu</a></dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

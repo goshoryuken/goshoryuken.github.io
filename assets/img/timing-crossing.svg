@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 196" role="img" aria-labelledby="t d">
+<title id="t">Critical path with and without a layer-crossing delay</title>
+<desc id="d">Without crossing delay the critical path is 4.28 ns. With an illustrative 1 ns delay per layer crossed it is 6.28 ns: the path crosses layers twice.</desc>
+<style>
+.bg{fill:#fbfaf7}.base{fill:#17191d}.extra{fill:#b2441b}.grid{stroke:#dddad2;stroke-width:1}.axis{stroke:#17191d;stroke-width:1}
+.t{font:400 12px "IBM Plex Mono",ui-monospace,Menlo,monospace;fill:#4b505a}.v{font:600 13px "IBM Plex Mono",ui-monospace,Menlo,monospace;fill:#17191d}
+.k{font:500 13px "IBM Plex Sans",-apple-system,Helvetica,Arial,sans-serif;fill:#17191d}.a{font:500 12px "IBM Plex Mono",ui-monospace,monospace;fill:#b2441b}
+.on{font:500 12px "IBM Plex Mono",ui-monospace,monospace;fill:#ffffff}
+@media (prefers-color-scheme:dark){.bg{fill:#1a1c20}.base{fill:#d6d4cf}.extra{fill:#e5794b}.grid{stroke:#2c2e33}.axis{stroke:#e9e7e2}
+.t{fill:#b0b0aa}.v{fill:#e9e7e2}.k{fill:#e9e7e2}.a{fill:#e5794b}.on{fill:#121316}}
+</style>
+<rect class="bg" width="740" height="196"/>
+<line class="grid" x1="190.0" y1="22" x2="190.0" y2="150"/>
+<text class="t" x="190.0" y="170" text-anchor="middle">0</text>
+<line class="grid" x1="264.3" y1="22" x2="264.3" y2="150"/>
+<text class="t" x="264.3" y="170" text-anchor="middle">1</text>
+<line class="grid" x1="338.6" y1="22" x2="338.6" y2="150"/>
+<text class="t" x="338.6" y="170" text-anchor="middle">2</text>
+<line class="grid" x1="412.9" y1="22" x2="412.9" y2="150"/>
+<text class="t" x="412.9" y="170" text-anchor="middle">3</text>
+<line class="grid" x1="487.1" y1="22" x2="487.1" y2="150"/>
+<text class="t" x="487.1" y="170" text-anchor="middle">4</text>
+<line class="grid" x1="561.4" y1="22" x2="561.4" y2="150"/>
+<text class="t" x="561.4" y="170" text-anchor="middle">5</text>
+<line class="grid" x1="635.7" y1="22" x2="635.7" y2="150"/>
+<text class="t" x="635.7" y="170" text-anchor="middle">6</text>
+<line class="grid" x1="710.0" y1="22" x2="710.0" y2="150"/>
+<text class="t" x="710.0" y="170" text-anchor="middle">7</text>
+<text class="t" x="710.0" y="188" text-anchor="end">ns</text>
+<line class="axis" x1="190.0" y1="150" x2="710.0" y2="150"/>
+<text class="k" x="20" y="57">no crossing delay</text>
+<rect class="base" x="190.0" y="36" width="317.9" height="30"/>
+<text class="v" x="515.9" y="56">4.28 ns</text>
+<text class="k" x="20" y="113">1 ns per crossing</text>
+<rect class="base" x="190.0" y="92" width="317.9" height="30"/>
+<rect class="extra" x="507.9" y="92" width="73.3" height="30"/>
+<rect class="extra" x="582.2" y="92" width="74.3" height="30"/>
+<text class="on" x="545.1" y="111" text-anchor="middle">+1</text>
+<text class="on" x="619.4" y="111" text-anchor="middle">+1</text>
+<text class="v" x="664.5" y="112">6.28 ns</text>
+<text class="a" x="582.2" y="140" text-anchor="middle">2 layer crossings on the critical path</text>
+</svg>

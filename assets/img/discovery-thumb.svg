@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Placeholder: DISCOVERY">
+<defs><pattern id="h" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" class="hl" stroke-width="2"/></pattern></defs>
+<style>.hl{stroke:#e2dfd6}.bg{fill:#f1efe9}.l{font:500 14px "IBM Plex Mono",ui-monospace,monospace;fill:#7a7f88;letter-spacing:.06em}.s{font:400 11px "IBM Plex Mono",ui-monospace,monospace;fill:#9a9ea5}
+@media (prefers-color-scheme:dark){.bg{fill:#1e2024}.hl{stroke:#26282d}.l{fill:#85868a}.s{fill:#5f6166}}</style>
+<rect class="bg" width="400" height="300"/><rect width="400" height="300" fill="url(#h)" opacity=".7"/>
+<text class="l" x="50%" y="48%" text-anchor="middle">DISCOVERY</text>
+<text class="s" x="50%" y="56%" text-anchor="middle">in progress</text></svg>

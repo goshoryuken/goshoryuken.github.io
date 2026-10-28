@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Two-Layer CLB — Ryu Tran</title>
+  <meta name="description" content="Extending VTR so one FPGA logic block can span two stacked dies, verified from architecture file to programmed fabric.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="../about.html">About</a>
+      <a href="../projects.html" aria-current="page">Projects</a>
+      <a href="../goals.html">Career goals</a>
+      <a href="../resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <header class="page-head">
+    <p class="label"><a href="../projects.html">Projects</a> / 01</p>
+    <h1>A logic block that spans two layers</h1>
+    <p class="lede">FPGAs are flat. 3D chips aren't. I extended the open-source VTR toolchain so a single
+      configurable logic block can split its logic across two stacked dies, and checked the result all the
+      way down to a programmed, simulated fabric.</p>
+  </header>
+
+  <div class="article">
+    <div class="body">
+
+      <figure>
+        <img src="../assets/img/clb-two-layer.svg" alt="Exploded view of one CLB split over two layers: FLEs 5 to 9 on layer 1, FLEs 0 to 4 plus the crossbar and all external pins on layer 0." width="800" height="352">
+        <figcaption><b>FIG. 1</b> The prototype CLB. Ten logic elements (FLEs) are split five and five across two
+          layers. All external pins stay on the bottom "anchor" layer; signals reach the upper layer only
+          through links inside the block.</figcaption>
+      </figure>
+
+      <h2>The problem</h2>
+      <p>An FPGA is a grid of configurable logic blocks (CLBs) connected by programmable wiring. Every
+        tool in the open-source flow, VTR included, assumes that each block sits on exactly one layer of
+        silicon. That assumption breaks as soon as you stack dies. In a 3D FPGA the most interesting
+        designs put part of a block on one die and part on another, so that short vertical links replace
+        long horizontal wires.</p>
+      <p>Before you can measure whether that helps, the CAD tools have to be able to describe such a
+        block, pack a circuit into it, place it, route it, time it, and generate hardware for it. When I
+        started, none of those steps knew what a split block was.</p>
+
+      <h2>The approach</h2>
+      <p>I added two attributes to VTR's architecture description. A tile can declare how many layers it
+        occupies, and any internal block can list a layer offset for each of its instances:</p>
+<pre><code>&lt;tile name="clb" layer_span="2"&gt;
+&lt;pb_type name="fle" num_pb="10"
+         instance_layer_offsets="0 0 0 0 0 1 1 1 1 1"&gt;</code></pre>
+      <p>Offsets are relative to the parent, not absolute. A logic element's layer is the sum of the
+        offsets on the path up to the CLB, plus the layer where the CLB was placed. That keeps the block's
+        internal shape the same wherever it is reused, and it meant I never had to store absolute layers in
+        VTR's shared block graph, which every placed CLB points to.</p>
+      <p>From there the work was making each stage of the flow respect the new geometry:</p>
+      <ul>
+        <li><strong>Parsing and validation.</strong> Reject offsets that don't fit inside the span, in every
+          operating mode of the block, not just the default one.</li>
+        <li><strong>Device grid.</strong> Reserve the cell above each spanning tile, and reject overlaps or
+          tiles that stick out the top of the device.</li>
+        <li><strong>Placement.</strong> Only choose legal anchor layers, and never place onto a reserved cell.</li>
+        <li><strong>Timing.</strong> An optional per-crossing delay is added to every internal connection
+          that changes layers.</li>
+        <li><strong>Output.</strong> After routing, report which layer every LUT and internal connection
+          landed on, and tag the post-route netlist with those layers.</li>
+      </ul>
+      <p>I also patched OpenFPGA, which turns a VTR architecture into real Verilog for the fabric, so that
+        every generated logic element carries its layer as an attribute that a physical-design tool can
+        read later.</p>
+
+      <h2>Proving it works</h2>
+      <p>"VPR didn't crash" is not evidence. I set up checks that each answer a different question:</p>
+      <ol class="flow">
+        <li><strong>Unit tests</strong><span>Offset parsing, bounds, placement legality and utilization counting.</span></li>
+        <li><strong>24 full VPR runs</strong><span>Including cases that must fail: overlapping tiles, spans that are too short, occupied anchors, pins on the upper layer.</span></li>
+        <li><strong>Post-route netlist simulation</strong><span>Every one of 64 input vectors checked on all 10 outputs against a reference model.</span></li>
+        <li><strong>Generated fabric</strong><span>OpenFPGA builds the fabric and a 9,316-bit bitstream; the configured fabric is simulated against the same 64 vectors.</span></li>
+        <li><strong>Negative control</strong><span>I deliberately swap two outputs and confirm both simulations catch it, so a pass actually means something.</span></li>
+      </ol>
+
+      <figure>
+        <img src="../assets/img/timing-crossing.svg" alt="Bar chart: critical path is 4.28 ns with no crossing delay and 6.28 ns with a 1 ns delay per crossing." width="740" height="196">
+        <figcaption><b>FIG. 2</b> Timing hook. With an illustrative 1&nbsp;ns cost per layer crossing, the critical
+          path grows by exactly 2&nbsp;ns, because it crosses between layers twice. The delay value is a
+          placeholder, not a measured vertical-link model.</figcaption>
+      </figure>
+
+      <h2>The outcome</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Check</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>Unit tests</td><td>All pass</td></tr>
+            <tr><td>VPR suite</td><td class="num">24 / 24</td></tr>
+            <tr><td>Packing</td><td>10 LUTs in one CLB, 5 per layer, two stacked cells</td></tr>
+            <tr><td>Netlist simulation</td><td class="num">64 vectors × 10 outputs ✓</td></tr>
+            <tr><td>Bitstream</td><td class="num">9,316 config bits</td></tr>
+            <tr><td>Configured fabric</td><td class="num">64 vectors × 10 outputs ✓</td></tr>
+            <tr><td>Planted output swap</td><td>Caught by both simulations</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Past the CAD changes, I took the generated CLB on its own and kept pushing: programming it through
+        its 1,700-bit configuration chain, assigning every internal component to layer 0 or 1, synthesizing
+        it to the Nangate45 cell library, and running a single-die OpenROAD place-and-route as a baseline.
+        A 44-case functional simulation suite checks the RTL, the synthesized netlist and the post-route
+        netlist against each other. That surfaced real findings, like flip-flop models that react to reset edges while the library cell is
+        level-sensitive, and a clock input with no loads.</p>
+
+      <h3>Fixing the framework underneath</h3>
+      <p>My work builds on LaZagna, an open-source 3D FPGA framework that won Best Paper at ICCAD 2025.
+        Along the way I found that its RTL generation failed for 3 of its 6 architecture types, and traced
+        it to an interlayer port declared 88 bits wide on one side and 86 on the other. I also fixed a build
+        failure that hit anyone starting from a clean clone.</p>
+
+      <h2>What I learned</h2>
+      <p class="callout">The hard part of a research tool isn't the feature. It's knowing when you can trust the answer.</p>
+      <p>Most of my time went into negative tests and controls, not the feature itself. I also learned to
+        read and change a large C++ codebase I didn't write, to be honest about limits in writing (the
+        crossing delay is illustrative, upper-layer pins aren't supported yet), and to explain a design
+        clearly enough that someone else can pick it up.</p>
+      <p><span class="todo">Add a sentence or two in your own words: what surprised you, what was hardest, who you worked with.</span></p>
+
+      <h2>Next steps</h2>
+      <ul>
+        <li>Pins on the upper layer and vertical routing between tiles.</li>
+        <li>Real vertical-link parameters (pitch, resistance, capacitance, drivers) instead of a placeholder delay.</li>
+        <li>A physical-design flow that actually reads the layer attributes.</li>
+      </ul>
+    </div>
+
+    <aside>
+      <div class="sticky">
+        <dl class="spec">
+          <dt>Role</dt><dd>Undergraduate Student Researcher</dd>
+          <dt>Lab</dt><dd>Sharc Lab, Georgia Tech</dd>
+          <dt>When</dt><dd>Aug 2026 – present</dd>
+          <dt>Built with</dt><dd>C++, Python, Verilog, VTR / VPR, OpenFPGA, Yosys, OpenROAD, Icarus Verilog</dd>
+          <dt>Code</dt><dd>Private (lab research)</dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

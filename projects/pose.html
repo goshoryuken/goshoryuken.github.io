@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pose. Posture Wearable — Ryu Tran</title>
+  <meta name="description" content="An ESP32 posture-tracking wearable built at HackGT 13. Won Best Use of TigerData.">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="../index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="../about.html">About</a>
+      <a href="../projects.html" aria-current="page">Projects</a>
+      <a href="../goals.html">Career goals</a>
+      <a href="../resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <header class="page-head">
+    <p class="label"><a href="../projects.html">Projects</a> / 02 · HackGT 13</p>
+    <h1>pose. — a wearable that notices when you slouch</h1>
+    <p class="lede">A four-person hackathon build: a small ESP32 wearable that detects slouching on-device
+      and syncs to a web dashboard. It won <strong>Best Use of TigerData</strong> at HackGT 13. I owned the
+      hardware and firmware.</p>
+  </header>
+
+  <div class="article">
+    <div class="body">
+
+      <h2>The problem</h2>
+      <p>Long study sessions make it easy to stop noticing how you sit. We wanted something that would give
+        students measurable feedback about their posture and small, encouraging goals, without being a medical
+        device.</p>
+
+      <h2>My part: the device</h2>
+      <p>The wearable is an ESP32 with a BNO055 orientation sensor (IMU), read over I²C. All posture
+        classification happens on the device; only the results go over Bluetooth Low Energy to the browser, so
+        the web app never has to interpret raw sensor data.</p>
+      <ul>
+        <li><strong>Calibration.</strong> Press a button while sitting upright, and that becomes your personal
+          baseline. Everything after is measured relative to it.</li>
+        <li><strong>Angle wraparound.</strong> Orientation angles jump from +180° to −180°. Without handling
+          that, turning slightly could look like a huge lean.</li>
+        <li><strong>Persistence window.</strong> Reaching for a coffee isn't slouching. A lean only counts
+          after 10 continuous seconds, and you have to be upright for 3 seconds before it resets.</li>
+        <li><strong>Timing that doesn't break.</strong> Elapsed times use unsigned subtraction, so they stay
+          correct even when the ESP32's millisecond counter wraps around.</li>
+      </ul>
+
+      <figure>
+        <img src="../assets/img/pose-dashboard.png" alt="The pose web dashboard: today's episodes, tracked time and slouch time, and a seven-day bar chart." width="1280" height="1018" loading="lazy">
+        <figcaption><b>FIG. 1</b> The team's dashboard, fed by the wearable: today's slouch episodes and time,
+          plus a seven-day history. Sample data shown.</figcaption>
+      </figure>
+
+      <h2>The rest of the system</h2>
+      <p>My teammates built the Ruby on Rails app: accounts, friend groups with weekly rankings, and a
+        dashboard. Readings are stored in a TimescaleDB hypertable on Tiger Cloud, which is what the TigerData
+        prize was for. My job was to make the boundary between them clean: the device publishes cumulative
+        posture snapshots over BLE, and the browser forwards them to the server.</p>
+
+      <h2>What I learned</h2>
+      <p>Working on a team under a hackathon deadline means agreeing on interfaces first. Once the BLE message format
+        was settled, the hardware and the web app could be built in parallel and meet in the middle.
+        <span class="todo">Add a photo of the wearable if you have one, and a line about the weekend in your own words.</span></p>
+    </div>
+
+    <aside>
+      <div class="sticky">
+        <dl class="spec">
+          <dt>Event</dt><dd>HackGT 13, Sep 2026</dd>
+          <dt>Award</dt><dd>Best Use of TigerData</dd>
+          <dt>Team</dt><dd>4 people</dd>
+          <dt>My role</dt><dd>Hardware &amp; firmware</dd>
+          <dt>Built with</dt><dd>C++, ESP32, BNO055, BLE, I²C · Rails, TimescaleDB</dd>
+          <dt>Code</dt><dd><a href="https://github.com/Keipydesu/buzzbuzzlovers">github.com/Keipydesu/buzzbuzzlovers</a></dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

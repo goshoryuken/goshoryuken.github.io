@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Ryu Tran</title>
+  <meta name="description" content="About Ryu Tran: how I got into hardware, what I'm working on, and what I do outside the lab.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="index.html">Ryu Tran</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="about.html" aria-current="page">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="goals.html">Career goals</a>
+      <a href="resume.html">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <header class="page-head">
+    <p class="label">About</p>
+    <h1>Hi, I'm Ryu.</h1>
+    <p class="lede">I like problems where the hardware and the software have to agree, and figuring out
+      exactly where they don't.</p>
+  </header>
+
+  <div class="article">
+    <div class="body">
+
+      <h2>Where it started</h2>
+      <p><span class="todo">Open with one specific moment that got you into engineering: the first thing you
+        took apart, a program that finally worked, a class or person that changed how you saw things. Say
+        what you did, what you noticed, and why it stuck. (~100 words)</span></p>
+
+      <h2>Learning by building</h2>
+      <p>In spring 2026 I decided the best way to understand a processor was to make one. I designed a
+        12-instruction ISA, built a five-stage pipelined CPU for it, and got it running on a small FPGA board,
+        counting Fibonacci numbers on two seven-segment displays. Simulation passing turned out to be the easy
+        part. On real hardware, memory came up full of garbage and synthesis crashed on a 65,536-way mux I
+        hadn't meant to build.</p>
+      <p>That summer I wanted to know how fast I could simulate that same CPU, so I wrote a gate-level
+        simulator in CUDA. My first GPU version was slower than the CPU, and figuring out why taught me more
+        about hardware than any speedup would have.</p>
+
+      <h2>What I'm doing now</h2>
+      <p>I'm an electrical engineering student at Georgia Tech. In the Sharc Lab I work on 3D FPGAs: chips
+        built from stacked layers of silicon. My project is a logic block that spans two layers, which meant
+        changing a large C++ toolchain I didn't write and proving every change with tests designed to fail
+        when something is wrong.</p>
+      <p>On the SiliconJackets ASIC team I do the other end of the flow. I took a RISC-V CPU from SystemVerilog
+        through verification, synthesis, place-and-route, timing and LVS to a real layout. And at HackGT 13,
+        my team's posture-tracking wearable won Best Use of TigerData; I built the hardware and firmware.</p>
+
+      <h2>Outside the lab</h2>
+      <p><span class="todo">Two or three things you do when you're not doing engineering: sports, music,
+        games, cooking, clubs, where you're from. Specific beats generic. (~80 words)</span></p>
+
+      <h2>Get in touch</h2>
+      <p>I'm open to internship and research conversations in digital design, verification and physical
+        design. LinkedIn is the best way to reach me.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://www.linkedin.com/in/ryutran">Message me on LinkedIn</a>
+        <a class="btn" href="https://github.com/goshoryuken">GitHub</a>
+      </div>
+    </div>
+
+    <aside>
+      <div class="sticky">
+        <img src="assets/img/portrait.svg" alt="Portrait of Ryu Tran" width="400" height="500" style="margin-bottom:1.25rem">
+        <dl class="spec">
+          <dt>School</dt><dd>Georgia Institute of Technology</dd>
+          <dt>Major</dt><dd>Electrical Engineering</dd>
+          <dt>Class of</dt><dd>2029</dd>
+          <dt>Hometown</dt><dd><span class="todo">City, State</span></dd>
+          <dt>Interests</dt><dd>Digital design, computer architecture, physical design, <span class="todo">+ hobbies</span></dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Ryu Tran · Atlanta, GA</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/ryutran">LinkedIn</a>
+      <a href="https://github.com/goshoryuken">GitHub</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
