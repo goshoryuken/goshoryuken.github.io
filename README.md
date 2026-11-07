@@ -10,8 +10,8 @@ From the repository root:
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-`index.html` contains the brief introduction and selected projects. `projects.html`
-is the featured collection; full technical write-ups are under `projects/`.
+`index.html` contains only the brief introduction. `projects.html`
+is the dedicated project collection; full technical write-ups are under `projects/`.
 Styling uses system fonts and supports light and dark preferences.
 
 To add a project, copy `projects/_template.html`, replace its example text, and
