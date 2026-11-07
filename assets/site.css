@@ -105,3 +105,22 @@ th, td { text-align: left; padding: .6rem .8rem .6rem 0; border-bottom: 1px soli
   .article { display: block; }
   .sticky { position: static; }
 }
+
+/* Expanded portfolio navigation and readable resume. */
+.site-header .wrap { flex-wrap: wrap; padding-block: 1.2rem; }
+.site-nav { flex-wrap: wrap; gap: .5rem 1.25rem; }
+.site-footer nav { display: flex; gap: 1.25rem; }
+.resume-actions { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin-top: 1.5rem; font-size: .94rem; }
+.resume-body > section:first-child h2 { margin-top: 0; }
+.resume-entry { margin-top: 1.5rem; }
+.resume-entry h3 { margin: 0 0 .35rem; }
+.resume-entry li { margin-bottom: .65rem; }
+.resume-entry ul { padding-left: 1.2rem; }
+.resume-skills dt { font-weight: 600; margin-top: 1rem; }
+.resume-skills dd { margin: .2rem 0 0; }
+.discovery-note { border-top: 1px solid var(--rule); margin-top: 3rem; color: var(--muted); font-size: .9rem; }
+.discovery-note h2 { font-size: 1.05rem; color: var(--ink); }
+@media (max-width: 700px) {
+  .site-header .wrap { align-items: flex-start; gap: .9rem; }
+  .site-nav { width: 100%; gap: .5rem 1rem; font-size: .85rem; }
+}

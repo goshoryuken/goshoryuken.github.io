@@ -3,15 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Project notes</title>
-  <meta name="description" content="Hardware and software project write-ups.">
+  <title>About — Hardware & software</title>
+  <meta name="description" content="Background in digital design, FPGA development, GPU simulation, and ASIC implementation.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header"><div class="wrap"><a class="wordmark" href="index.html">Hardware &amp; software</a><nav class="site-nav" aria-label="Main"><a href="index.html">Home</a><a href="projects.html">Featured</a></nav></div></header>
-<main id="main" class="wrap"><header class="page-head"><h1>Project notes</h1><p class="lede">The CPU, simulator, and other technical work are collected on the featured projects page.</p><a class="read-link" href="projects.html">View featured projects →</a></header></main>
-<footer class="site-footer"><div class="wrap"><span>Project notes</span><a href="projects.html">Featured projects</a></div></footer>
+<header class="site-header"><div class="wrap"><a class="wordmark" href="index.html">Hardware &amp; software</a><nav class="site-nav" aria-label="Main"><a href="index.html">Home</a><a href="projects.html">Featured</a><a href="about.html" aria-current="page">About</a><a href="resume.html">Résumé</a><a href="goals.html">Career goals</a></nav></div></header>
+<main id="main" class="wrap">
+<header class="page-head"><h1>About me</h1><p class="lede">I’m an electrical engineering student working on digital hardware: processors, FPGA architectures, and the software used to simulate and implement them.</p></header>
+<div class="prose body">
+<h2>Starting with a processor</h2>
+<p>My projects have grown out of specific technical questions. For the 16-bit CPU, the question was how to turn an instruction set into a working processor. I designed a 12-instruction ISA, wrote a Python assembler, and implemented a five-stage pipeline in SystemVerilog. Forwarding, load-use stalls, and branch flushing became concrete problems to solve rather than just names in an architecture diagram.</p>
+<p>Getting the CPU onto an FPGA added another set of problems. A memory address that was too wide caused synthesis to attempt an enormous multiplexer. A simulation-only initialization block left memory uninitialized on hardware. Working through those failures was part of getting a Fibonacci program running on a Tang Nano 9K, with its output shown on two seven-segment displays.</p>
+<p>That project gave me an interest in the whole path from a design decision to observable behavior. I wanted to understand both the processor’s structure and how to check that it was doing what I intended.</p>
+<h2>Following the question into software</h2>
+<p>The CPU then became the test circuit for my CUDA logic simulator. I used Yosys to turn it into a netlist of 20,170 gates and 8,676 flip-flops, organized the gates by their dependencies, and built CPU and GPU execution paths. The first GPU implementation spent too much time launching kernels. Moving the simulation into one persistent kernel reduced GPU runtime by 4.7 times and brought it to about twice the speed of the CPU at 100,000 cycles.</p>
+<p>Performance was only one part of that work. Wire-name collisions in the flattened netlist caused nondeterministic GPU results. After fixing the naming step, I compared the final state of every signal between the CPU and GPU. That experience reinforced the need to establish correctness before treating a faster runtime as a useful result.</p>
+<h2>Working in larger design flows</h2>
+<p>My research work extends that interest to 3D FPGAs. I prototyped a configurable logic block with ten LUTs split across two die layers, changing VTR’s architecture parsing and placement and OpenFPGA’s RTL generation. I also took a single-die baseline through synthesis and place-and-route in OpenROAD, checking the RTL and resulting netlists with functional simulation.</p>
+<p>On a student ASIC design team, I have worked on an RV32I-subset processor, class-based verification, and a Sky130 physical-design flow. That work includes coverage analysis, SRAM macro placement, timing analysis, clock gating, and DRC/LVS debugging. It has given me practice reading evidence from several tools and tracing a failure back to the design or constraints that produced it.</p>
+<h2>Beyond the processor</h2>
+<p>I also work on embedded systems. On a four-person posture-wearable project, I owned the ESP32 hardware and firmware: bringing up a BNO055 motion sensor, calibrating an upright baseline, filtering brief movements, and sending posture data over BLE. The project required a clear interface between firmware and the web dashboard my teammates built.</p>
+<p>An earlier IT internship involved migrating approximately twenty workstations to Windows 11 and configuring hardware firewalls. Across these experiences, the work I want to keep doing is hands-on and specific: build a system, measure its behavior, and use those results to decide what to improve next.</p>
+<p><a href="projects.html">Read the project write-ups</a> or <a href="resume.html">view my résumé</a>.</p>
+</div></main>
+<footer class="site-footer"><div class="wrap"><a href="projects.html">Featured projects</a><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></div></footer>
 </body>
 </html>

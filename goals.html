@@ -3,15 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Project notes</title>
-  <meta name="description" content="Hardware and software project write-ups.">
+  <title>Career goals — Hardware & software</title>
+  <meta name="description" content="A development plan for digital design, verification, computer architecture, and ASIC physical design.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header"><div class="wrap"><a class="wordmark" href="index.html">Hardware &amp; software</a><nav class="site-nav" aria-label="Main"><a href="index.html">Home</a><a href="projects.html">Featured</a></nav></div></header>
-<main id="main" class="wrap"><header class="page-head"><h1>Project notes</h1><p class="lede">The CPU, simulator, and other technical work are collected on the featured projects page.</p><a class="read-link" href="projects.html">View featured projects →</a></header></main>
-<footer class="site-footer"><div class="wrap"><span>Project notes</span><a href="projects.html">Featured projects</a></div></footer>
+<header class="site-header"><div class="wrap"><a class="wordmark" href="index.html">Hardware &amp; software</a><nav class="site-nav" aria-label="Main"><a href="index.html">Home</a><a href="projects.html">Featured</a><a href="about.html">About</a><a href="resume.html">Résumé</a><a href="goals.html" aria-current="page">Career goals</a></nav></div></header>
+<main id="main" class="wrap">
+<header class="page-head"><h1>Career goals</h1><p class="lede">I want to work in digital design or ASIC physical design, with a strong understanding of computer architecture and verification.</p></header>
+<div class="prose body">
+<h2>The work I want to do</h2>
+<p>My long-term goal is to help design processors or other digital blocks and carry them through implementation. I’m interested in the decisions that connect architecture to timing, area, power, and correctness. The CPU, simulator, and physical-design projects have given me different views of those decisions; I want to develop enough depth to take responsibility for a block and explain the tradeoffs behind it.</p>
+<p>I am also interested in FPGA architecture and the CAD tools needed to support new hardware structures. The two-layer logic-block project showed me how a change to an architecture description affects packing, placement, timing, RTL generation, and validation. Research is a direction I want to keep exploring alongside implementation work.</p>
+<h2>Build stronger verification habits</h2>
+<p>My current experience includes directed tests, constrained-random stimulus, a reference model, scoreboards, assertions, and coverage analysis. The next step is to make these methods more systematic. I plan to strengthen my understanding of UVM and formal verification, and practice connecting each design requirement to a check that can detect a violation.</p>
+<p>For my processor projects, that means expanding tests around pipeline hazards, reset behavior, memory boundaries, and instruction interactions. A useful milestone is a regression with clear pass/fail reporting and a documented explanation of remaining coverage gaps. Reaching a percentage alone is not enough; I want to know which behavior is still untested.</p>
+<h2>Go deeper in architecture and implementation</h2>
+<p>I plan to build on my coursework in digital system design, programming, discrete mathematics, and linear algebra with further study in computer architecture, VLSI, and circuits. I want to apply that material in projects: adding an instruction cache to the CPU, measuring the impact of architectural changes, and comparing the implementation cost with the benefit.</p>
+<p>In physical design, I want more practice with timing constraints, clocking, congestion, and power. My existing work includes a path with roughly thirty-three cells of logic and a clock-gating change that exposed tie-off problems during LVS. I want to use those experiences to develop a more deliberate process: understand the report, identify the cause, change one part of the design or flow, and compare the resulting timing and physical checks.</p>
+<h2>Keep research grounded in evidence</h2>
+<p>For the 3D FPGA work, the next questions involve realistic vertical-link parameters and physical flows that make use of layer assignments. I want to distinguish architectural assumptions from measured results and keep the validation reproducible. That means recording tool versions, test cases, constraints, and the limits of each experiment so another person can evaluate the result.</p>
+<p>I will use further research and team projects to decide whether graduate study fits the technical questions I want to pursue. I have not committed to a particular degree path or employer. The decision should depend on the work I want to do and the depth of preparation it requires.</p>
+<h2>Measure progress through finished work</h2>
+<p>My near-term priorities are a stronger processor verification flow, a documented architecture extension, and more complete timing and physical-design analysis. I also want to improve how I communicate: explain the problem before the implementation, state my own contribution clearly, and present measurements with their conditions and limitations.</p>
+<p>I’ll update this portfolio as those projects develop. A finished write-up, a reproducible regression, and a design change supported by measurements are concrete ways to check whether I am progressing toward those goals.</p>
+</div></main>
+<footer class="site-footer"><div class="wrap"><a href="projects.html">Featured projects</a><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></div></footer>
 </body>
 </html>

@@ -18,10 +18,14 @@ To add a project, copy `projects/_template.html`, replace its example text, and
 link the finished write-up from `projects.html`. Use actual project images and
 include the conditions behind any performance measurements.
 
-The old about, résumé, and goals URLs point visitors to the project collection.
-Personal biography, contact information, and academic records are intentionally
-omitted. Check page metadata and image contents as well as visible text before
-adding new material.
+The About, Résumé, and Career Goals pages complete the portfolio alongside the
+featured technical work. `assets/resume.pdf` is a separate public résumé; never
+replace it with an unredacted upload. LinkedIn and GitHub are the only personal
+contact links. Phone, email, address, GPA, and graduation timeline are omitted.
+Check PDF text, link annotations, metadata, and image contents before publishing.
+
+The Discovery Project feature remains deferred for the later showcase, as
+permitted by the published-portfolio assignment. Do not invent its results.
 
 ## Publish
 
