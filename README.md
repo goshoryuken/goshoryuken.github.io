@@ -1,28 +1,29 @@
-# ePortfolio
+# Project notes
 
-Plain HTML/CSS, no build step. Open `index.html` in a browser to preview.
+A static HTML/CSS portfolio. No package install or build step.
 
-## Fill in
+## Develop
 
-Everything you still need to write is wrapped in `<span class="todo">…</span>` and shows up
-highlighted yellow on the page. Find them all with:
+From the repository root:
 
 ```sh
-grep -rn 'class="todo"' --include=*.html .
+python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Still to do:
+`index.html` contains the brief introduction and selected projects. `projects.html`
+is the featured collection; full technical write-ups are under `projects/`.
+Styling uses system fonts and supports light and dark preferences.
 
-- `assets/img/portrait.jpg`: add a photo, then point the `<img>` in `index.html` and `about.html` at it.
-- Discovery Project: fill in `projects/discovery.html` and replace its placeholder images with your own photos.
-- Resume: save a redacted PDF (no phone, no personal email) as `assets/resume.pdf`; `resume.html` already embeds it.
+To add a project, copy `projects/_template.html`, replace its example text, and
+link the finished write-up from `projects.html`. Use actual project images and
+include the conditions behind any performance measurements.
 
-## Add a project
+The old about, résumé, and goals URLs point visitors to the project collection.
+Personal biography, contact information, and academic records are intentionally
+omitted. Check page metadata and image contents as well as visible text before
+adding new material.
 
-1. Copy `projects/_template.html` to `projects/<name>.html` and fill it in.
-2. Add a `<li>` for it at the top of the list in `projects.html` (and `index.html` if it's a highlight).
+## Publish
 
-## Publishing
-
-GitHub Pages serves `main` at https://goshoryuken.github.io/ (Settings → Pages → Deploy from a branch,
-`main`, `/ (root)`). Pushes go live in a minute or two.
+GitHub Pages serves `main` from the repository root. Local edits are not live
+until committed and pushed through the usual publishing workflow.
