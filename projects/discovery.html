@@ -12,14 +12,14 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html?v=eaf188924f0f" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=ad453b90a117" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html?v=eaf188924f0f">Home</a>
-      <a href="../projects.html?v=eaf188924f0f">Projects</a>
-      <a href="../projects/discovery.html?v=eaf188924f0f" aria-current="page">Discovery Project</a>
-      <a href="../about.html?v=eaf188924f0f">About</a>
-      <a href="../resume.html?v=eaf188924f0f">Résumé</a>
-      <a href="../goals.html?v=eaf188924f0f">Career goals</a>
+      <a href="../index.html?v=ad453b90a117">Home</a>
+      <a href="../projects.html?v=ad453b90a117">Projects</a>
+      <a href="../projects/discovery.html?v=ad453b90a117" aria-current="page">Discovery Project</a>
+      <a href="../about.html?v=ad453b90a117">About</a>
+      <a href="../resume.html?v=ad453b90a117">Résumé</a>
+      <a href="../goals.html?v=ad453b90a117">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main discovery-page">
@@ -39,7 +39,8 @@
   <div class="discovery-story body">
     <section id="idea">
       <h2>The idea</h2>
-      <p>I wanted to understand what happens between describing a processor in RTL and producing a chip layout. For my Discovery Project, I used the SiliconJackets onboarding sequence to work through digital design, design verification, and physical design with the same CPU. My goal was to follow the connections between those stages and see where a design that makes sense in code runs into practical constraints.</p>
+      <p>My original pitch was to take the SiliconJackets RISC-V CPU from simulation onto a Tang Nano 9K FPGA, with buttons, switches, and a display for stepping through programs and viewing registers. As the semester progressed, I focused on physical design (PD): taking the CPU through synthesis, floorplanning, placement, routing, and analysis. I did not get to FPGA deployment or the front-panel build.</p>
+      <p>The project became an opportunity to follow the same CPU through digital design, verification, and physical design, and see where a design that makes sense in code runs into implementation constraints.</p>
       <p>The core implements a small RV32I-style instruction subset: arithmetic, logical shifts, word loads and stores, conditional branches, and an <code>ebreak</code> halt. It uses 32-bit data and a 32-register file, with <code>x0</code> held at zero. SiliconJackets supplied the chip-level framework, SRAMs, memory controller, and onboarding scaffolds. My work centered on implementing and integrating the CPU, checking its behavior, and running and modifying the physical-design flow.</p>
     </section>
     <section id="process">
@@ -64,6 +65,7 @@
     </section>
     <section id="results">
       <h2>Results &amp; roadblocks</h2>
+      <p>The FPGA portion of my original plan remains unfinished. I spent that time on the SiliconJackets physical-design flow, so I did not deploy this core to a board, build its front panel, or compare FPGA results against simulation. The results below come from simulation and the ASIC physical-design flow.</p>
       <p>The main success was carrying one CPU across the design, verification, and physical-design stages. I could connect a control decision in the RTL to simulation behavior and then to a timing path in the implementation. The physical results also showed me where more work was needed.</p>
       <div class="table-wrap">
         <table>
