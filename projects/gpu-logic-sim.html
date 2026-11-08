@@ -12,19 +12,19 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=a229d9a0cc8a" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html">Home</a>
-      <a href="../projects.html" aria-current="page">Projects</a>
-      <a href="../about.html">About</a>
-      <a href="../resume.html">Résumé</a>
-      <a href="../goals.html">Career goals</a>
+      <a href="../index.html?v=a229d9a0cc8a">Home</a>
+      <a href="../projects.html?v=a229d9a0cc8a" aria-current="page">Projects</a>
+      <a href="../about.html?v=a229d9a0cc8a">About</a>
+      <a href="../resume.html?v=a229d9a0cc8a">Résumé</a>
+      <a href="../goals.html?v=a229d9a0cc8a">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main">
 
   <header class="page-head">
-    <p class="label"><a href="../projects.html">← Projects</a></p>
+    <p class="label"><a href="../projects.html?v=a229d9a0cc8a">← Projects</a></p>
     <h1>GPU logic simulator</h1>
     <p class="lede">A CUDA gate-level simulator for a 20,170-gate CPU netlist. Replacing per-level kernel launches with one persistent kernel reduced GPU runtime from 53.2 to 11.3 seconds at 100,000 cycles.</p>
   </header>
@@ -36,7 +36,7 @@
       <p>Gate-level simulation evaluates every logic gate in a circuit, every clock cycle. Inside one
         "level" of logic, no gate depends on another, so in principle they can all be evaluated at the same
         time. I wanted to find out how much that parallelism is actually worth on real hardware, using a real
-        circuit: the <a href="risc-cpu.html">16-bit pipelined CPU</a> I'd built the semester before.</p>
+        circuit: the <a href="risc-cpu.html?v=a229d9a0cc8a">16-bit pipelined CPU</a> I'd built the semester before.</p>
 
       <h2>How it works</h2>
       <figure>

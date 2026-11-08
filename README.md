@@ -54,7 +54,9 @@ python3 scripts/version_styles.py
 ```
 
 This writes a stylesheet with a content hash in its filename and updates every
-HTML page to reference it. Commit the generated CSS and HTML changes together.
+HTML page to reference it. It also versions internal page links, so navigation
+does not reuse HTML cached from an older design. Commit the generated CSS and
+HTML changes together.
 Edit `assets/site.css`, not the generated copy. Keep earlier versioned files so
 cached pages can still load the stylesheet they were published with. Versioned
 URLs prevent an old cached stylesheet from breaking a newly deployed layout.
