@@ -1,6 +1,6 @@
 # Project notes
 
-A static HTML/CSS portfolio. No package install or build step.
+A static HTML/CSS portfolio. No package install is needed.
 
 ## Develop
 
@@ -29,6 +29,19 @@ The Discovery Project feature remains deferred for the later showcase, as
 permitted by the published-portfolio assignment. Do not invent its results.
 
 ## Publish
+
+After editing `assets/site.css`, run:
+
+```sh
+python3 scripts/version_styles.py
+```
+
+This writes a stylesheet with a content hash in its filename and updates every
+HTML page to reference it. Commit the generated CSS and HTML changes together.
+Edit `assets/site.css`, not the generated copy. Keep earlier versioned files so
+cached pages can still load the stylesheet they were published with. Versioned
+URLs prevent an old cached stylesheet from breaking a newly deployed layout.
+
 
 GitHub Pages serves `main` from the repository root. Local edits are not live
 until committed and pushed through the usual publishing workflow.
