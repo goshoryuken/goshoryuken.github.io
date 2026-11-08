@@ -12,13 +12,13 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="index.html?v=641b43708389" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="index.html?v=e176847ca353" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="index.html?v=641b43708389">Home</a>
-      <a href="projects.html?v=641b43708389" aria-current="page">Projects</a>
-      <a href="about.html?v=641b43708389">About</a>
-      <a href="resume.html?v=641b43708389">Résumé</a>
-      <a href="goals.html?v=641b43708389">Career goals</a>
+      <a href="index.html?v=e176847ca353">Home</a>
+      <a href="projects.html?v=e176847ca353" aria-current="page">Projects</a>
+      <a href="about.html?v=e176847ca353">About</a>
+      <a href="resume.html?v=e176847ca353">Résumé</a>
+      <a href="goals.html?v=e176847ca353">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main project-collection">
@@ -40,12 +40,16 @@
   <div class="project-story body">
 
       <figure>
-        <img src="assets/img/cpu-pipeline.png" alt="Block diagram of the five pipeline stages IF, ID, EX, MEM, WB separated by pipeline registers, with a stall unit and a forwarding unit." width="1417" height="1100" loading="lazy">
-        <figcaption><b>FIG. 1</b> The pipeline: fetch, decode, execute, memory, write-back, plus the stall and
-          forwarding units that keep it correct.</figcaption>
+        <img src="assets/img/cpu-hardware.png" alt="Tang Nano 9K FPGA wired on a breadboard to two illuminated seven-segment displays and a red LED" width="1650" height="936" loading="eager">
+        <figcaption><b>FIG. 1</b> My CPU running on a Tang Nano 9K, connected to two TM1637 displays and an overflow LED.</figcaption>
       </figure>
 
       <h3>The design</h3>
+      <figure>
+        <img src="assets/img/cpu-pipeline.png" alt="Block diagram of the five pipeline stages IF, ID, EX, MEM, WB separated by pipeline registers, with a stall unit and a forwarding unit." width="1417" height="1100" loading="lazy">
+        <figcaption><b>FIG. 2</b> The pipeline: fetch, decode, execute, memory, write-back, plus the stall and
+          forwarding units that keep it correct.</figcaption>
+      </figure>
       <p>The ISA has 12 instructions: ADD, SUB, AND, OR, XOR, NOT, shift left and right, LOAD, STORE, BEQ and
         HALT. A small Python assembler turns readable assembly into the hex the instruction memory loads.</p>
       <p>Pipelining means up to five instructions are in flight at once, which creates hazards. I handled
@@ -61,7 +65,7 @@
 
       <figure>
         <img src="assets/img/cpu-gtkwave.png" alt="GTKWave waveform of the CPU testbench showing pipeline signals." width="1363" height="521" loading="lazy">
-        <figcaption><b>FIG. 2</b> Testbench run in Icarus Verilog, viewed in GTKWave.</figcaption>
+        <figcaption><b>FIG. 3</b> Testbench run in Icarus Verilog, viewed in GTKWave.</figcaption>
       </figure>
 
       <h3>On real hardware</h3>

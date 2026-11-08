@@ -48,7 +48,7 @@ Use the actual image filename; the frame crops it to fit without stretching.
 
 ## Publish
 
-After editing `assets/site.css`, run:
+After editing page content or `assets/site.css`, run:
 
 ```sh
 python3 scripts/version_styles.py
@@ -56,7 +56,8 @@ python3 scripts/version_styles.py
 
 This writes a stylesheet with a content hash in its filename and updates every
 HTML page to reference it. It also versions internal page links, so navigation
-does not reuse HTML cached from an older design. Commit the generated CSS and
+does not reuse HTML cached from an older design or content update. Page versions
+are derived from both the HTML content and CSS. Commit the generated CSS and
 HTML changes together.
 Edit `assets/site.css`, not the generated copy. Keep earlier versioned files so
 cached pages can still load the stylesheet they were published with. Versioned
