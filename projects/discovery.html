@@ -12,14 +12,14 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html?v=7a41189f3f6b" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=a642b0ade054" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html?v=7a41189f3f6b">Home</a>
-      <a href="../projects.html?v=7a41189f3f6b">Projects</a>
-      <a href="../projects/discovery.html?v=7a41189f3f6b" aria-current="page">Discovery Project</a>
-      <a href="../about.html?v=7a41189f3f6b">About</a>
-      <a href="../resume.html?v=7a41189f3f6b">Résumé</a>
-      <a href="../goals.html?v=7a41189f3f6b">Career goals</a>
+      <a href="../index.html?v=a642b0ade054">Home</a>
+      <a href="../projects.html?v=a642b0ade054">Projects</a>
+      <a href="../projects/discovery.html?v=a642b0ade054" aria-current="page">Discovery Project</a>
+      <a href="../about.html?v=a642b0ade054">About</a>
+      <a href="../resume.html?v=a642b0ade054">Résumé</a>
+      <a href="../goals.html?v=a642b0ade054">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main discovery-page">
@@ -27,14 +27,14 @@
     <p class="meta">SiliconJackets · Fall 2026</p>
     <h1>Discovery Project</h1>
     <p class="lede">A RISC-V CPU, from RTL to physical layout.</p>
-    <p class="discovery-summary">I built a small CPU core for SiliconJackets, verified its behavior, and took it through synthesis, placement, and routing. This project let me connect the SystemVerilog I write to the hardware it becomes.</p>
+    <p class="discovery-summary">I built a small CPU core for SiliconJackets, verified its behavior, and took it through synthesis, placement, and routing. The physical implementation still has negative timing slack and unresolved DRC/LVS issues, so it is not ready for tapeout.</p>
   </header>
   <nav class="project-index" aria-label="Discovery Project sections">
     <a href="#idea">The idea</a><a href="#process">The process</a><a href="#results">Results &amp; roadblocks</a><a href="#skills">Skills gained</a><a href="#reflection">Looking back</a>
   </nav>
   <figure class="discovery-hero">
     <a href="../assets/img/discovery-layout.png" aria-label="Open my routed layout and design-rule report at full size"><img src="../assets/img/discovery-layout.png" alt="My routed CPU layout in Cadence Virtuoso beside the Pegasus design-rule report, which lists 102 results" width="1919" height="767"></a>
-    <figcaption>My physical-design run: the routed layout alongside its design-rule check results. The layout was generated, with violations still to resolve. Select the image to inspect it at full size.</figcaption>
+    <figcaption>My physical-design run: a routed layout with timing closure and physical verification still incomplete. This is not a signed-off design. Select the image to inspect it at full size.</figcaption>
   </figure>
   <div class="discovery-story body">
     <section id="idea">
@@ -73,6 +73,7 @@
         </table>
       </div>
       <p class="discovery-detail">Negative slack indicates an unmet timing constraint. These values are the results recorded for the queried paths in each run.</p>
+      <p><strong>Timing closure was not achieved.</strong> A GDSII file describes layout geometry; generating one does not mean the circuit meets timing or is ready to manufacture. My results demonstrate progress through the physical-design flow, with timing and physical-verification issues still to resolve before signoff.</p>
       <p>Adding faster cells did not solve timing. The worst path changed after clock gating, and the high-speed-cell run only slightly improved worst slack while total negative slack worsened. That result taught me to examine the actual critical paths and constraints before deciding what to change next.</p>
       <p>The physical checks also remained open: the DRC report showed 102 results, including 86 pin-polygon violations, and the LVS report showed 35 shorts. DRC checks layout geometry against manufacturing rules; LVS compares layout connectivity with the circuit. Reaching a routed layout was a useful milestone, but these reports did not establish a clean, fabrication-ready design. Resolving those issues and closing timing would be the next implementation work.</p>
     </section>
