@@ -242,3 +242,18 @@ th, td { text-align: left; padding: .6rem .8rem .6rem 0; border-bottom: 1px soli
   .profile-page .welcome-header, .profile-footer { display: none; }
   .profile-body { display: block; }
 }
+
+/* Portrait space can hold a real image without changing the welcome layout. */
+.welcome-greeting { display: flex; align-items: center; gap: 1.5rem; }
+.portrait-slot { width: 112px; height: 112px; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; border: 1px dashed var(--rule); border-radius: 50%; background: var(--welcome-tint); color: var(--muted); overflow: hidden; }
+.portrait-slot span { font-size: .7rem; }
+.portrait-slot svg { width: 36px; height: 36px; flex: none; }
+.portrait-slot img { width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 651px) and (max-width: 1000px) {
+  .welcome-greeting { gap: 1rem; }
+  .portrait-slot { width: 80px; height: 80px; }
+}
+@media (max-width: 650px) {
+  .welcome-greeting { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .portrait-slot { width: 96px; height: 96px; }
+}

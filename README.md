@@ -28,6 +28,21 @@ Check PDF text, link annotations, metadata, and image contents before publishing
 The Discovery Project feature remains deferred for the later showcase, as
 permitted by the published-portfolio assignment. Do not invent its results.
 
+## Profile photo
+
+The homepage reserves a circular photo spot beside the introduction (above it on
+mobile). To add a portrait, put the photo in `assets/img/`, replace the contents
+of `.portrait-slot` in `index.html` with an image, and remove the placeholder's
+`role` and `aria-label` attributes:
+
+```html
+<div class="portrait-slot">
+  <img src="assets/img/profile.jpg" alt="Ryu" width="112" height="112">
+</div>
+```
+
+Use the actual image filename; the frame crops it to fit without stretching.
+
 ## Publish
 
 After editing `assets/site.css`, run:
