@@ -6,85 +6,25 @@
   <title>pose. Posture Wearable</title>
   <meta name="description" content="An ESP32 posture-tracking wearable with on-device motion sensing and BLE.">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/site.a229d9a0cc8a.css">
+  <link rel="stylesheet" href="../assets/site.641b43708389.css">
 </head>
 <body class="site-page">
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html?v=a229d9a0cc8a" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=641b43708389" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html?v=a229d9a0cc8a">Home</a>
-      <a href="../projects.html?v=a229d9a0cc8a" aria-current="page">Projects</a>
-      <a href="../about.html?v=a229d9a0cc8a">About</a>
-      <a href="../resume.html?v=a229d9a0cc8a">Résumé</a>
-      <a href="../goals.html?v=a229d9a0cc8a">Career goals</a>
+      <a href="../index.html?v=641b43708389">Home</a>
+      <a href="../projects.html?v=641b43708389" aria-current="page">Projects</a>
+      <a href="../about.html?v=641b43708389">About</a>
+      <a href="../resume.html?v=641b43708389">Résumé</a>
+      <a href="../goals.html?v=641b43708389">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main">
-
-  <header class="page-head">
-    <p class="label"><a href="../projects.html?v=a229d9a0cc8a">← Projects</a></p>
-    <h1>pose. — a wearable that notices when you slouch</h1>
-    <p class="lede">A four-person hackathon build: a small ESP32 wearable that detects slouching on-device
-      and syncs to a web dashboard. I owned the
-      hardware and firmware.</p>
-  </header>
-
-  <div class="article">
-    <div class="body">
-
-      <h2>The problem</h2>
-      <p>Long study sessions make it easy to stop noticing how you sit. We wanted something that would give
-        students measurable feedback about their posture and small, encouraging goals, without being a medical
-        device.</p>
-
-      <h2>My part: the device</h2>
-      <p>The wearable is an ESP32 with a BNO055 orientation sensor (IMU), read over I²C. All posture
-        classification happens on the device; only the results go over Bluetooth Low Energy to the browser, so
-        the web app never has to interpret raw sensor data.</p>
-      <ul>
-        <li><strong>Calibration.</strong> Press a button while sitting upright, and that becomes your personal
-          baseline. Everything after is measured relative to it.</li>
-        <li><strong>Angle wraparound.</strong> Orientation angles jump from +180° to −180°. Without handling
-          that, turning slightly could look like a huge lean.</li>
-        <li><strong>Persistence window.</strong> Reaching for a coffee isn't slouching. A lean only counts
-          after 10 continuous seconds, and you have to be upright for 3 seconds before it resets.</li>
-        <li><strong>Timing that doesn't break.</strong> Elapsed times use unsigned subtraction, so they stay
-          correct even when the ESP32's millisecond counter wraps around.</li>
-      </ul>
-
-      <figure>
-        <img src="../assets/img/pose-dashboard.png" alt="The pose web dashboard: today's episodes, tracked time and slouch time, and a seven-day bar chart." width="1280" height="1018" loading="lazy">
-        <figcaption><b>FIG. 1</b> The team's dashboard, fed by the wearable: today's slouch episodes and time,
-          plus a seven-day history. Sample data shown.</figcaption>
-      </figure>
-
-      <h2>The rest of the system</h2>
-      <p>My teammates built the Ruby on Rails app: accounts, friend groups with weekly rankings, and a
-        dashboard. Readings are stored in a TimescaleDB hypertable on Tiger Cloud. My job was to make the boundary between them clean: the device publishes cumulative
-        posture snapshots over BLE, and the browser forwards them to the server.</p>
-
-      <h2>What I learned</h2>
-      <p>Working on a team under a hackathon deadline means agreeing on interfaces first. Once the BLE message format
-        was settled, the hardware and the web app could be built in parallel and meet in the middle.
-        </p>
-    </div>
-
-    <aside>
-      <div class="sticky">
-        <dl class="spec">
-
-          <dt>Team</dt><dd>4 people</dd>
-          <dt>My role</dt><dd>Hardware &amp; firmware</dd>
-          <dt>Built with</dt><dd>C++, ESP32, BNO055, BLE, I²C · Rails, TimescaleDB</dd>
-          <dt>Code</dt><dd><a href="https://github.com/Keipydesu/buzzbuzzlovers">View source on GitHub</a></dd>
-        </dl>
-      </div>
-    </aside>
-  </div>
-
+<header class="page-head"><h1>Posture-tracking wearable</h1><p class="lede">This write-up is now part of the Projects page.</p><a id="project-destination" class="read-link" href="../projects.html?v=641b43708389#pose">Read the project →</a></header>
 </main>
+<script>window.location.replace(document.getElementById('project-destination').href);</script>
 <footer class="site-footer"><span>Ryu · Electrical engineering</span><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></footer>
 </div>
 </body>

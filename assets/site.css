@@ -250,3 +250,22 @@ th, td { text-align: left; padding: .6rem .8rem .6rem 0; border-bottom: 1px soli
   .site-shell { border: 0; box-shadow: none; }
   .content-main { padding: 0; }
 }
+
+/* Project write-ups share one page, with in-page navigation. */
+.project-index { display: flex; flex-wrap: wrap; gap: .65rem; margin-bottom: 2.75rem; scroll-margin-top: 1rem; }
+.project-index a { padding: .55rem .9rem; border: 1px solid var(--rule); border-radius: 7px; background: var(--welcome-tint); color: var(--accent); font-size: .85rem; text-decoration: none; }
+.project-index a:hover { border-color: var(--accent); background: var(--welcome-hover); }
+.project-writeup { padding: 3rem 0; border-top: 1px solid var(--rule); scroll-margin-top: 1.5rem; }
+.project-title-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .75rem 1.5rem; }
+.project-title-row h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0; }
+.project-source, .project-access { font-size: .8rem; color: var(--accent); }
+.project-overview { max-width: 76ch; font-size: 1.05rem; color: var(--muted); margin: 1.25rem 0 2rem; }
+.project-story { max-width: 780px; margin-inline: auto; }
+.project-story h3 { font-size: 1.2rem; margin-top: 2rem; }
+.project-story figure { margin-block: 2rem; }
+.project-story figure img { max-height: 620px; object-fit: contain; background: var(--welcome-tint); }
+.back-to-projects { display: inline-block; margin-top: 1.5rem; color: var(--accent); font-size: .8rem; }
+@media (max-width: 650px) {
+  .project-writeup { padding-block: 2rem; }
+  .project-overview { font-size: .98rem; }
+}

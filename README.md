@@ -11,13 +11,14 @@ python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
 `index.html` is a welcome page with an introduction, section buttons, and social
-links. `projects.html` is the dedicated project collection; full technical write-ups are under `projects/`.
+links. `projects.html` contains all project write-ups and images in one scrolling page.
+The old individual project URLs redirect to the corresponding section.
 Every page shares the homepage palette, `.site-shell` frame, `.welcome-header`,
 and `.site-footer`. Styling uses system fonts and supports light and dark
 preferences. Keep shared colors in the root CSS variables so new pages match.
 
-To add a project, copy `projects/_template.html`, replace its example text, and
-link the finished write-up from `projects.html`. Use actual project images and
+To add a project, copy the article fragment in `projects/_template.html` into
+`projects.html`, replace its example text, and add its section ID to the jump links. Use actual project images and
 include the conditions behind any performance measurements.
 
 The About page groups education, threads, coursework, skills, and experience;

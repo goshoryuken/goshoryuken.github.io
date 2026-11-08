@@ -6,100 +6,25 @@
   <title>GPU Logic Simulator</title>
   <meta name="description" content="A CUDA gate-level simulator that runs a 20,170-gate CPU netlist, and why the first GPU version was slower than the CPU.">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/site.a229d9a0cc8a.css">
+  <link rel="stylesheet" href="../assets/site.641b43708389.css">
 </head>
 <body class="site-page">
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html?v=a229d9a0cc8a" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=641b43708389" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html?v=a229d9a0cc8a">Home</a>
-      <a href="../projects.html?v=a229d9a0cc8a" aria-current="page">Projects</a>
-      <a href="../about.html?v=a229d9a0cc8a">About</a>
-      <a href="../resume.html?v=a229d9a0cc8a">Résumé</a>
-      <a href="../goals.html?v=a229d9a0cc8a">Career goals</a>
+      <a href="../index.html?v=641b43708389">Home</a>
+      <a href="../projects.html?v=641b43708389" aria-current="page">Projects</a>
+      <a href="../about.html?v=641b43708389">About</a>
+      <a href="../resume.html?v=641b43708389">Résumé</a>
+      <a href="../goals.html?v=641b43708389">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main">
-
-  <header class="page-head">
-    <p class="label"><a href="../projects.html?v=a229d9a0cc8a">← Projects</a></p>
-    <h1>GPU logic simulator</h1>
-    <p class="lede">A CUDA gate-level simulator for a 20,170-gate CPU netlist. Replacing per-level kernel launches with one persistent kernel reduced GPU runtime from 53.2 to 11.3 seconds at 100,000 cycles.</p>
-  </header>
-
-  <div class="article">
-    <div class="body">
-
-      <h2>The idea</h2>
-      <p>Gate-level simulation evaluates every logic gate in a circuit, every clock cycle. Inside one
-        "level" of logic, no gate depends on another, so in principle they can all be evaluated at the same
-        time. I wanted to find out how much that parallelism is actually worth on real hardware, using a real
-        circuit: the <a href="risc-cpu.html?v=a229d9a0cc8a">16-bit pipelined CPU</a> I'd built the semester before.</p>
-
-      <h2>How it works</h2>
-      <figure>
-        <img src="../assets/img/gpusim-arch.png" alt="Flow diagram: Verilog goes through Yosys, a parser and a levelizer, then to either a CPU simulator or a GPU simulator using flat arrays, and out to VCD results." width="1027" height="1156" loading="lazy">
-        <figcaption><b>FIG. 1</b> The simulator pipeline, from SystemVerilog to waveform.</figcaption>
-      </figure>
-      <ol class="flow">
-        <li><strong>Synthesize</strong><span>Yosys flattens the CPU into single-bit gate primitives: 20,170 gates and 8,676 flip-flops.</span></li>
-        <li><strong>Parse</strong><span>A C++ parser reads the structural netlist into gate and wire data structures.</span></li>
-        <li><strong>Levelize</strong><span>Kahn's algorithm assigns every gate a dependency level, so no gate is evaluated before its inputs are ready.</span></li>
-        <li><strong>Flatten for the GPU</strong><span>The netlist becomes plain integer arrays (gate types, input IDs, output IDs, offsets, signal values) so GPU threads read memory in a predictable pattern.</span></li>
-        <li><strong>Simulate and dump</strong><span>The CPU or GPU runs the cycles; results go to a VCD file I inspect in GTKWave.</span></li>
-      </ol>
-
-      <h2>Why the GPU lost, then won</h2>
-      <p>Version 1 launched one CUDA kernel per logic level, per cycle: about 500,000 kernel launches for
-        10,000 cycles. Each launch only had a few hundred gates of work, so the GPU spent its time being
-        scheduled instead of computing.</p>
-      <p>Version 2 launches <em>one</em> persistent kernel for the whole simulation. Threads use
-        grid-stride loops to cover any number of gates per level, and synchronize between levels on the
-        device with Cooperative Groups (<code>grid.sync()</code>) instead of returning to the host. That cut
-        GPU runtime by 4.7× and made it about 2× faster than the CPU at 100,000 cycles.</p>
-
-      <figure>
-        <img src="../assets/img/gpusim-benchmark.svg" alt="Log-log chart of runtime vs cycles. GPU v1 is slowest at every size. GPU v2 overtakes the CPU around 500 cycles and is about twice as fast at 100,000 cycles." width="740" height="340" loading="lazy">
-        <figcaption><b>FIG. 2</b> Runtime on a Ryzen 5 7600X and RTX 3060 Ti. At 100,000 cycles: CPU 23.3 s,
-          GPU v1 53.2 s, GPU v2 11.3 s. Below ~500 cycles the one-time setup cost still makes the CPU faster.</figcaption>
-      </figure>
-
-      <h2>The bug that only showed up on the GPU</h2>
-      <p>For a while the GPU gave slightly different answers from run to run. The cause wasn't in my CUDA
-        code at all. When Yosys flattens submodules, internal wires in different modules can end up with the
-        same auto-generated name, which silently creates nets with more than one driver. On the CPU the
-        evaluation order happened to hide it; on the GPU, which thread wrote last changed every run. Adding a
-        Yosys <code>autoname</code> pass after all the other transformations fixed it, and I verified a
-        bit-exact match between CPU and GPU on every signal's final state.</p>
-
-      <figure>
-        <img src="../assets/img/gpusim-gtkwave.png" alt="GTKWave waveform output from the simulator." width="2256" height="649" loading="lazy">
-        <figcaption><b>FIG. 3</b> Simulator output in GTKWave.</figcaption>
-      </figure>
-
-      <h2>Limits of the result</h2>
-
-      <p>Speedup depends on how wide the circuit is, not just how big it is: a narrow, deep circuit can't
-        keep the GPU busy. And nondeterminism is a symptom, not a bug report; the real problem was upstream,
-        in the netlist.</p>
-    </div>
-
-    <aside>
-      <div class="sticky">
-        <dl class="spec">
-          <dt>Type</dt><dd>Personal project</dd>
-
-          <dt>Built with</dt><dd>CUDA, C++, Yosys, GTKWave</dd>
-          <dt>Result</dt><dd>4.7× faster than GPU v1; 2× faster than CPU at 100k cycles</dd>
-          <dt>Code</dt><dd><a href="https://github.com/goshoryuken/gpu-logic-sim">View source on GitHub</a></dd>
-        </dl>
-      </div>
-    </aside>
-  </div>
-
+<header class="page-head"><h1>GPU logic simulator</h1><p class="lede">This write-up is now part of the Projects page.</p><a id="project-destination" class="read-link" href="../projects.html?v=641b43708389#gpu-logic-sim">Read the project →</a></header>
 </main>
+<script>window.location.replace(document.getElementById('project-destination').href);</script>
 <footer class="site-footer"><span>Ryu · Electrical engineering</span><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></footer>
 </div>
 </body>

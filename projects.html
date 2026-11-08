@@ -4,44 +4,314 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Projects</title>
-  <meta name="description" content="A pipelined CPU and a CUDA logic simulator, with design notes and measured results.">
+  <meta name="description" content="CPU, GPU simulation, 3D FPGA, and embedded-system write-ups together on one page.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/site.a229d9a0cc8a.css">
+  <link rel="stylesheet" href="assets/site.641b43708389.css">
 </head>
 <body class="site-page">
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="index.html?v=a229d9a0cc8a" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="index.html?v=641b43708389" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="index.html?v=a229d9a0cc8a">Home</a>
-      <a href="projects.html?v=a229d9a0cc8a" aria-current="page">Projects</a>
-      <a href="about.html?v=a229d9a0cc8a">About</a>
-      <a href="resume.html?v=a229d9a0cc8a">Résumé</a>
-      <a href="goals.html?v=a229d9a0cc8a">Career goals</a>
+      <a href="index.html?v=641b43708389">Home</a>
+      <a href="projects.html?v=641b43708389" aria-current="page">Projects</a>
+      <a href="about.html?v=641b43708389">About</a>
+      <a href="resume.html?v=641b43708389">Résumé</a>
+      <a href="goals.html?v=641b43708389">Career goals</a>
     </nav>
   </header>
-<main id="main" class="content-main">
-<header class="page-head"><h1>Projects</h1><p class="lede">Two connected projects: a processor built in SystemVerilog, and a simulator built to run it.</p></header>
-<div class="featured-grid">
-  <article class="project-card">
-    <a class="project-image cpu-image" href="projects/risc-cpu.html?v=a229d9a0cc8a" aria-label="Read about the 16-bit pipelined CPU"><img src="assets/img/cpu-pipeline.png" alt="Five-stage CPU pipeline with forwarding and stall units" width="1417" height="1100"></a>
-    <div class="card-copy"><p class="meta">SystemVerilog · Python · FPGA</p><h2><a href="projects/risc-cpu.html?v=a229d9a0cc8a">16-bit pipelined CPU</a></h2>
-    <p>A custom instruction set, assembler, and five-stage processor. Runs Fibonacci on a Tang Nano 9K, with the output on seven-segment displays.</p>
-    <a class="read-link" href="projects/risc-cpu.html?v=a229d9a0cc8a">Design &amp; FPGA demo <span aria-hidden="true">→</span></a></div>
-  </article>
-  <article class="project-card">
-    <a class="project-image" href="projects/gpu-logic-sim.html?v=a229d9a0cc8a" aria-label="Read about the GPU logic simulator"><img src="assets/img/gpusim-benchmark.svg" alt="Runtime comparison between the CPU and two GPU implementations" width="740" height="340"></a>
-    <div class="card-copy"><p class="meta">CUDA · C++ · Yosys</p><h2><a href="projects/gpu-logic-sim.html?v=a229d9a0cc8a">GPU logic simulator</a></h2>
-    <p>A gate-level simulator for the CPU’s 20,170-gate netlist. A persistent CUDA kernel cut the 100,000-cycle run from 53.2 to 11.3 seconds.</p>
-    <a class="read-link" href="projects/gpu-logic-sim.html?v=a229d9a0cc8a">Implementation &amp; benchmarks <span aria-hidden="true">→</span></a></div>
-  </article>
-</div>
-<section class="project-connection prose"><h2>From hardware to simulation</h2><p>The CPU started as a way to learn pipelining, hazards, and FPGA implementation. Its synthesized netlist became the test circuit for the simulator—a way to compare CPU and GPU execution on the same design.</p><p>The write-ups include the architecture, debugging notes, and measurements behind each project.</p></section>
-<section class="other-projects" aria-labelledby="other"><h2 id="other">Other work</h2>
-<a href="projects/layered-clb.html?v=a229d9a0cc8a"><span><strong>Two-layer FPGA logic block</strong><span>Architecture and toolchain changes in VTR and OpenFPGA.</span></span><span aria-hidden="true">→</span></a>
-<a href="projects/pose.html?v=a229d9a0cc8a"><span><strong>Posture-tracking wearable</strong><span>ESP32 firmware, motion sensing, and BLE communication.</span></span><span aria-hidden="true">→</span></a>
-</section><section class="discovery-note"><h2>Discovery Project</h2><p>The Discovery Project feature will be added before the showcase. The completed technical write-ups above are available now.</p></section></main>
+<main id="main" class="content-main project-collection">
+<header class="page-head"><h1>Projects</h1><p class="lede">Design notes, results, and images from my work in digital hardware and simulation.</p></header>
+<nav class="project-index" id="project-index" aria-label="Jump to project">
+  <a href="#risc-cpu">RISC CPU</a>
+  <a href="#gpu-logic-sim">GPU simulator</a>
+  <a href="#layered-clb">3D FPGA</a>
+  <a href="#pose">Wearable</a>
+</nav>
+<article class="project-writeup" id="risc-cpu" aria-labelledby="risc-cpu-title">
+  <header class="project-heading">
+    <p class="meta">SystemVerilog · Python · Tang Nano 9K</p>
+    <div class="project-title-row"><h2 id="risc-cpu-title">16-bit pipelined RISC CPU</h2><a class="project-source" href="https://github.com/goshoryuken/pipelined-risc-cpu">Source on GitHub <span aria-hidden="true">→</span></a></div>
+    <p class="project-overview">I designed my own instruction set, built a five-stage pipelined processor for it in
+      SystemVerilog, wrote an assembler, and put it on a small FPGA board where it counts Fibonacci numbers
+      until it overflows.</p>
+  </header>
+  <div class="project-story body">
+
+      <figure>
+        <img src="assets/img/cpu-pipeline.png" alt="Block diagram of the five pipeline stages IF, ID, EX, MEM, WB separated by pipeline registers, with a stall unit and a forwarding unit." width="1417" height="1100" loading="lazy">
+        <figcaption><b>FIG. 1</b> The pipeline: fetch, decode, execute, memory, write-back, plus the stall and
+          forwarding units that keep it correct.</figcaption>
+      </figure>
+
+      <h3>The design</h3>
+      <p>The ISA has 12 instructions: ADD, SUB, AND, OR, XOR, NOT, shift left and right, LOAD, STORE, BEQ and
+        HALT. A small Python assembler turns readable assembly into the hex the instruction memory loads.</p>
+      <p>Pipelining means up to five instructions are in flight at once, which creates hazards. I handled
+        three kinds:</p>
+      <ul>
+        <li><strong>Data hazards.</strong> A forwarding unit spots when an instruction needs a result still
+          sitting in the EX/MEM or MEM/WB register and routes it straight into the ALU inputs.</li>
+        <li><strong>Load-use hazards.</strong> When a value is needed the cycle after it's loaded, forwarding
+          can't help, so the pipeline stalls for one cycle: PC and IF/ID freeze, ID/EX is zeroed.</li>
+        <li><strong>Branches.</strong> BEQ resolves in EX, so two wrong instructions have already been fetched
+          when a branch is taken. They're flushed, at a 2-cycle penalty.</li>
+      </ul>
+
+      <figure>
+        <img src="assets/img/cpu-gtkwave.png" alt="GTKWave waveform of the CPU testbench showing pipeline signals." width="1363" height="521" loading="lazy">
+        <figcaption><b>FIG. 2</b> Testbench run in Icarus Verilog, viewed in GTKWave.</figcaption>
+      </figure>
+
+      <h3>On real hardware</h3>
+      <p>The CPU runs on a Gowin Tang Nano 9K on a divided clock (about 1.6 Hz) so you can watch each value
+        appear. A double-dabble converter turns the 16-bit result into five BCD digits, and a driver I wrote
+        for the TM1637's two-wire serial protocol (start/stop, byte transfer, ACK, brightness) puts them on two
+        4-digit seven-segment displays. After 46,368 the next Fibonacci number doesn't fit in 16 bits, and a
+        red LED lights up to show the overflow.</p>
+      <p><a href="https://github.com/goshoryuken/pipelined-risc-cpu#demo">Watch the demo video on GitHub →</a></p>
+
+      <h3>What broke on the way</h3>
+      <p>Simulation passing turned out to be the easy part:</p>
+      <ul>
+        <li><strong>Garbage in memory.</strong> I'd initialized memory with an <code>initial</code> block, which
+          simulators honor and the FPGA silently ignores. Replaced it with a synchronous reset.</li>
+        <li><strong>Synthesis crash.</strong> The data memory used the full 16-bit address for a 256-entry
+          array, so the tool tried to build a 65,536-way mux. Slicing the address to 8 bits fixed it.</li>
+        <li><strong>Reset stuck on.</strong> The board's button is active-low; my CPU expected active-high.</li>
+      </ul>
+
+      <h3>Next steps</h3>
+      <p>This CPU later became
+        the benchmark circuit for my <a href="#gpu-logic-sim">GPU logic simulator</a>. Next on its roadmap
+        are an instruction cache and a proper class-based, constrained-random testbench.</p></div>
+  <a class="back-to-projects" href="#project-index">Back to project list ↑</a>
+</article>
+<article class="project-writeup" id="gpu-logic-sim" aria-labelledby="gpu-logic-sim-title">
+  <header class="project-heading">
+    <p class="meta">CUDA · C++ · Yosys</p>
+    <div class="project-title-row"><h2 id="gpu-logic-sim-title">GPU logic simulator</h2><a class="project-source" href="https://github.com/goshoryuken/gpu-logic-sim">Source on GitHub <span aria-hidden="true">→</span></a></div>
+    <p class="project-overview">A CUDA gate-level simulator for a 20,170-gate CPU netlist. Replacing per-level kernel launches with one persistent kernel reduced GPU runtime from 53.2 to 11.3 seconds at 100,000 cycles.</p>
+  </header>
+  <div class="project-story body">
+
+      <h3>The idea</h3>
+      <p>Gate-level simulation evaluates every logic gate in a circuit, every clock cycle. Inside one
+        "level" of logic, no gate depends on another, so in principle they can all be evaluated at the same
+        time. I wanted to find out how much that parallelism is actually worth on real hardware, using a real
+        circuit: the <a href="#risc-cpu">16-bit pipelined CPU</a> I'd built the semester before.</p>
+
+      <h3>How it works</h3>
+      <figure>
+        <img src="assets/img/gpusim-arch.png" alt="Flow diagram: Verilog goes through Yosys, a parser and a levelizer, then to either a CPU simulator or a GPU simulator using flat arrays, and out to VCD results." width="1027" height="1156" loading="lazy">
+        <figcaption><b>FIG. 1</b> The simulator pipeline, from SystemVerilog to waveform.</figcaption>
+      </figure>
+      <ol class="flow">
+        <li><strong>Synthesize</strong><span>Yosys flattens the CPU into single-bit gate primitives: 20,170 gates and 8,676 flip-flops.</span></li>
+        <li><strong>Parse</strong><span>A C++ parser reads the structural netlist into gate and wire data structures.</span></li>
+        <li><strong>Levelize</strong><span>Kahn's algorithm assigns every gate a dependency level, so no gate is evaluated before its inputs are ready.</span></li>
+        <li><strong>Flatten for the GPU</strong><span>The netlist becomes plain integer arrays (gate types, input IDs, output IDs, offsets, signal values) so GPU threads read memory in a predictable pattern.</span></li>
+        <li><strong>Simulate and dump</strong><span>The CPU or GPU runs the cycles; results go to a VCD file I inspect in GTKWave.</span></li>
+      </ol>
+
+      <h3>Why the GPU lost, then won</h3>
+      <p>Version 1 launched one CUDA kernel per logic level, per cycle: about 500,000 kernel launches for
+        10,000 cycles. Each launch only had a few hundred gates of work, so the GPU spent its time being
+        scheduled instead of computing.</p>
+      <p>Version 2 launches <em>one</em> persistent kernel for the whole simulation. Threads use
+        grid-stride loops to cover any number of gates per level, and synchronize between levels on the
+        device with Cooperative Groups (<code>grid.sync()</code>) instead of returning to the host. That cut
+        GPU runtime by 4.7× and made it about 2× faster than the CPU at 100,000 cycles.</p>
+
+      <figure>
+        <img src="assets/img/gpusim-benchmark.svg" alt="Log-log chart of runtime vs cycles. GPU v1 is slowest at every size. GPU v2 overtakes the CPU around 500 cycles and is about twice as fast at 100,000 cycles." width="740" height="340" loading="lazy">
+        <figcaption><b>FIG. 2</b> Runtime on a Ryzen 5 7600X and RTX 3060 Ti. At 100,000 cycles: CPU 23.3 s,
+          GPU v1 53.2 s, GPU v2 11.3 s. Below ~500 cycles the one-time setup cost still makes the CPU faster.</figcaption>
+      </figure>
+
+      <h3>The bug that only showed up on the GPU</h3>
+      <p>For a while the GPU gave slightly different answers from run to run. The cause wasn't in my CUDA
+        code at all. When Yosys flattens submodules, internal wires in different modules can end up with the
+        same auto-generated name, which silently creates nets with more than one driver. On the CPU the
+        evaluation order happened to hide it; on the GPU, which thread wrote last changed every run. Adding a
+        Yosys <code>autoname</code> pass after all the other transformations fixed it, and I verified a
+        bit-exact match between CPU and GPU on every signal's final state.</p>
+
+      <figure>
+        <img src="assets/img/gpusim-gtkwave.png" alt="GTKWave waveform output from the simulator." width="2256" height="649" loading="lazy">
+        <figcaption><b>FIG. 3</b> Simulator output in GTKWave.</figcaption>
+      </figure>
+
+      <h3>Limits of the result</h3>
+
+      <p>Speedup depends on how wide the circuit is, not just how big it is: a narrow, deep circuit can't
+        keep the GPU busy. And nondeterminism is a symptom, not a bug report; the real problem was upstream,
+        in the netlist.</p></div>
+  <a class="back-to-projects" href="#project-index">Back to project list ↑</a>
+</article>
+<article class="project-writeup" id="layered-clb" aria-labelledby="layered-clb-title">
+  <header class="project-heading">
+    <p class="meta">Sharc Lab · VTR · OpenFPGA · OpenROAD</p>
+    <div class="project-title-row"><h2 id="layered-clb-title">Two-layer FPGA logic block</h2><span class="project-access">Research code is private</span></div>
+    <p class="project-overview">I extended the open-source VTR toolchain so a single
+      configurable logic block can split its logic across two stacked dies, and checked the result all the
+      way down to a programmed, simulated fabric.</p>
+  </header>
+  <div class="project-story body">
+
+      <figure>
+        <img src="assets/img/clb-two-layer.svg" alt="Exploded view of one CLB split over two layers: FLEs 5 to 9 on layer 1, FLEs 0 to 4 plus the crossbar and all external pins on layer 0." width="800" height="352" loading="lazy">
+        <figcaption><b>FIG. 1</b> The prototype CLB. Ten logic elements (FLEs) are split five and five across two
+          layers. All external pins stay on the bottom "anchor" layer; signals reach the upper layer only
+          through links inside the block.</figcaption>
+      </figure>
+
+      <h3>The problem</h3>
+      <p>An FPGA is a grid of configurable logic blocks (CLBs) connected by programmable wiring. Every
+        tool in the open-source flow, VTR included, assumes that each block sits on exactly one layer of
+        silicon. That assumption breaks as soon as you stack dies. In a 3D FPGA the most interesting
+        designs put part of a block on one die and part on another, so that short vertical links replace
+        long horizontal wires.</p>
+      <p>Before you can measure whether that helps, the CAD tools have to be able to describe such a
+        block, pack a circuit into it, place it, route it, time it, and generate hardware for it. When I
+        started, none of those steps knew what a split block was.</p>
+
+      <h3>The approach</h3>
+      <p>I added two attributes to VTR's architecture description. A tile can declare how many layers it
+        occupies, and any internal block can list a layer offset for each of its instances:</p>
+<pre><code>&lt;tile name="clb" layer_span="2"&gt;
+&lt;pb_type name="fle" num_pb="10"
+         instance_layer_offsets="0 0 0 0 0 1 1 1 1 1"&gt;</code></pre>
+      <p>Offsets are relative to the parent, not absolute. A logic element's layer is the sum of the
+        offsets on the path up to the CLB, plus the layer where the CLB was placed. That keeps the block's
+        internal shape the same wherever it is reused, and it meant I never had to store absolute layers in
+        VTR's shared block graph, which every placed CLB points to.</p>
+      <p>From there the work was making each stage of the flow respect the new geometry:</p>
+      <ul>
+        <li><strong>Parsing and validation.</strong> Reject offsets that don't fit inside the span, in every
+          operating mode of the block, not just the default one.</li>
+        <li><strong>Device grid.</strong> Reserve the cell above each spanning tile, and reject overlaps or
+          tiles that stick out the top of the device.</li>
+        <li><strong>Placement.</strong> Only choose legal anchor layers, and never place onto a reserved cell.</li>
+        <li><strong>Timing.</strong> An optional per-crossing delay is added to every internal connection
+          that changes layers.</li>
+        <li><strong>Output.</strong> After routing, report which layer every LUT and internal connection
+          landed on, and tag the post-route netlist with those layers.</li>
+      </ul>
+      <p>I also patched OpenFPGA, which turns a VTR architecture into real Verilog for the fabric, so that
+        every generated logic element carries its layer as an attribute that a physical-design tool can
+        read later.</p>
+
+      <h3>Proving it works</h3>
+      <p>"VPR didn't crash" is not evidence. I set up checks that each answer a different question:</p>
+      <ol class="flow">
+        <li><strong>Unit tests</strong><span>Offset parsing, bounds, placement legality and utilization counting.</span></li>
+        <li><strong>24 full VPR runs</strong><span>Including cases that must fail: overlapping tiles, spans that are too short, occupied anchors, pins on the upper layer.</span></li>
+        <li><strong>Post-route netlist simulation</strong><span>Every one of 64 input vectors checked on all 10 outputs against a reference model.</span></li>
+        <li><strong>Generated fabric</strong><span>OpenFPGA builds the fabric and a 9,316-bit bitstream; the configured fabric is simulated against the same 64 vectors.</span></li>
+        <li><strong>Negative control</strong><span>I deliberately swap two outputs and confirm both simulations catch it, so a pass actually means something.</span></li>
+      </ol>
+
+      <figure>
+        <img src="assets/img/timing-crossing.svg" alt="Bar chart: critical path is 4.28 ns with no crossing delay and 6.28 ns with a 1 ns delay per crossing." width="740" height="196" loading="lazy">
+        <figcaption><b>FIG. 2</b> Timing hook. With an illustrative 1&nbsp;ns cost per layer crossing, the critical
+          path grows by exactly 2&nbsp;ns, because it crosses between layers twice. The delay value is a
+          placeholder, not a measured vertical-link model.</figcaption>
+      </figure>
+
+      <h3>The outcome</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Check</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>Unit tests</td><td>All pass</td></tr>
+            <tr><td>VPR suite</td><td class="num">24 / 24</td></tr>
+            <tr><td>Packing</td><td>10 LUTs in one CLB, 5 per layer, two stacked cells</td></tr>
+            <tr><td>Netlist simulation</td><td class="num">64 vectors × 10 outputs ✓</td></tr>
+            <tr><td>Bitstream</td><td class="num">9,316 config bits</td></tr>
+            <tr><td>Configured fabric</td><td class="num">64 vectors × 10 outputs ✓</td></tr>
+            <tr><td>Planted output swap</td><td>Caught by both simulations</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Past the CAD changes, I took the generated CLB on its own and kept pushing: programming it through
+        its 1,700-bit configuration chain, assigning every internal component to layer 0 or 1, synthesizing
+        it to the Nangate45 cell library, and running a single-die OpenROAD place-and-route as a baseline.
+        A 44-case functional simulation suite checks the RTL, the synthesized netlist and the post-route
+        netlist against each other. That surfaced real findings, like flip-flop models that react to reset edges while the library cell is
+        level-sensitive, and a clock input with no loads.</p>
+
+      <h3>Fixing the framework underneath</h3>
+      <p>My work builds on LaZagna, an open-source 3D FPGA framework that won Best Paper at ICCAD 2025.
+        Along the way I found that its RTL generation failed for 3 of its 6 architecture types, and traced
+        it to an interlayer port declared 88 bits wide on one side and 86 on the other. I also fixed a build
+        failure that hit anyone starting from a clean clone.</p>
+
+      <h3>What I learned</h3>
+      <p class="callout">The hard part of a research tool isn't the feature. It's knowing when you can trust the answer.</p>
+      <p>Most of my time went into negative tests and controls, not the feature itself. I also learned to
+        read and change a large C++ codebase I didn't write, to be honest about limits in writing (the
+        crossing delay is illustrative, upper-layer pins aren't supported yet), and to explain a design
+        clearly enough that someone else can pick it up.</p>
+
+      <h3>Next steps</h3>
+      <ul>
+        <li>Pins on the upper layer and vertical routing between tiles.</li>
+        <li>Real vertical-link parameters (pitch, resistance, capacitance, drivers) instead of a placeholder delay.</li>
+        <li>A physical-design flow that actually reads the layer attributes.</li>
+      </ul></div>
+  <a class="back-to-projects" href="#project-index">Back to project list ↑</a>
+</article>
+<article class="project-writeup" id="pose" aria-labelledby="pose-title">
+  <header class="project-heading">
+    <p class="meta">C++ · ESP32 · BLE</p>
+    <div class="project-title-row"><h2 id="pose-title">Posture-tracking wearable</h2><a class="project-source" href="https://github.com/Keipydesu/buzzbuzzlovers">Source on GitHub <span aria-hidden="true">→</span></a></div>
+    <p class="project-overview">A four-person hackathon build: a small ESP32 wearable that detects slouching on-device
+      and syncs to a web dashboard. I owned the
+      hardware and firmware.</p>
+  </header>
+  <div class="project-story body">
+
+      <h3>The problem</h3>
+      <p>Long study sessions make it easy to stop noticing how you sit. We wanted something that would give
+        students measurable feedback about their posture and small, encouraging goals, without being a medical
+        device.</p>
+
+      <h3>My part: the device</h3>
+      <p>The wearable is an ESP32 with a BNO055 orientation sensor (IMU), read over I²C. All posture
+        classification happens on the device; only the results go over Bluetooth Low Energy to the browser, so
+        the web app never has to interpret raw sensor data.</p>
+      <ul>
+        <li><strong>Calibration.</strong> Press a button while sitting upright, and that becomes your personal
+          baseline. Everything after is measured relative to it.</li>
+        <li><strong>Angle wraparound.</strong> Orientation angles jump from +180° to −180°. Without handling
+          that, turning slightly could look like a huge lean.</li>
+        <li><strong>Persistence window.</strong> Reaching for a coffee isn't slouching. A lean only counts
+          after 10 continuous seconds, and you have to be upright for 3 seconds before it resets.</li>
+        <li><strong>Timing that doesn't break.</strong> Elapsed times use unsigned subtraction, so they stay
+          correct even when the ESP32's millisecond counter wraps around.</li>
+      </ul>
+
+      <figure>
+        <img src="assets/img/pose-dashboard.png" alt="The pose web dashboard: today's episodes, tracked time and slouch time, and a seven-day bar chart." width="1280" height="1018" loading="lazy">
+        <figcaption><b>FIG. 1</b> The team's dashboard, fed by the wearable: today's slouch episodes and time,
+          plus a seven-day history. Sample data shown.</figcaption>
+      </figure>
+
+      <h3>The rest of the system</h3>
+      <p>My teammates built the Ruby on Rails app: accounts, friend groups with weekly rankings, and a
+        dashboard. Readings are stored in a TimescaleDB hypertable on Tiger Cloud. My job was to make the boundary between them clean: the device publishes cumulative
+        posture snapshots over BLE, and the browser forwards them to the server.</p>
+
+      <h3>What I learned</h3>
+      <p>Working on a team under a hackathon deadline means agreeing on interfaces first. Once the BLE message format
+        was settled, the hardware and the web app could be built in parallel and meet in the middle.
+        </p></div>
+  <a class="back-to-projects" href="#project-index">Back to project list ↑</a>
+</article>
+<section class="discovery-note" id="discovery"><h2>Discovery Project</h2><p>The Discovery Project feature will be added before the showcase.</p></section>
+</main>
 <footer class="site-footer"><span>Ryu · Electrical engineering</span><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></footer>
 </div>
 </body>
