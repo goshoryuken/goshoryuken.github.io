@@ -11,7 +11,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
 `index.html` is a welcome page with an introduction, section buttons, and social
-links. `projects.html` contains all project write-ups and images in one scrolling page.
+links. `projects.html` contains the personal project write-ups and images in one scrolling page.
 The old individual project URLs redirect to the corresponding section.
 Every page shares the homepage palette, `.site-shell` frame, `.welcome-header`,
 and `.site-footer`. Styling uses system fonts and supports light and dark
@@ -28,8 +28,11 @@ replace it with an unredacted upload. LinkedIn and GitHub are the only personal
 contact links. Phone, email, address, GPA, and graduation timeline are omitted.
 Check PDF text, link annotations, metadata, and image contents before publishing.
 
-The Discovery Project feature remains deferred for the later showcase, as
-permitted by the published-portfolio assignment. Do not invent its results.
+`projects/discovery.html` is the separate Discovery Project feature for the
+SiliconJackets CPU. It covers the idea, progress, successes and roadblocks, skills,
+and reflection, with original visuals extracted from the submitted PD report.
+Keep coverage hierarchy labels and unresolved timing/DRC/LVS findings accurate.
+Do not publish the raw submission PDF or source attachments with personal details.
 
 ## Profile photo
 

@@ -269,3 +269,15 @@ th, td { text-align: left; padding: .6rem .8rem .6rem 0; border-bottom: 1px soli
   .project-writeup { padding-block: 2rem; }
   .project-overview { font-size: .98rem; }
 }
+
+/* Discovery Project uses the same shared palette and page frame. */
+.site-nav a { white-space: nowrap; }
+.discovery-summary { max-width: 72ch; margin: 1.2rem 0 0; color: var(--muted); }
+.discovery-hero { margin: 0 0 3rem; }
+.discovery-story { max-width: 780px; margin-inline: auto; }
+.discovery-story section { scroll-margin-top: 1.5rem; }
+.discovery-story section + section { border-top: 1px solid var(--rule); margin-top: 2.5rem; padding-top: .5rem; }
+.discovery-sketch { max-width: 580px; margin: 2rem auto; }
+.discovery-story caption { text-align: left; font-weight: 600; padding-bottom: .8rem; }
+.discovery-story th[scope="row"] { font-weight: 500; }
+.discovery-detail { color: var(--muted); font-size: .8rem; margin-top: .7rem; }

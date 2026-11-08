@@ -3,25 +3,96 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Project notes</title>
-  <meta name="description" content="Hardware and software project write-ups.">
+  <title>Discovery Project — Ryu</title>
+  <meta name="description" content="My SiliconJackets RISC-V CPU project: RTL design, verification, place and route, and lessons from the RTL-to-GDSII flow.">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/site.641b43708389.css">
+  <link rel="stylesheet" href="../assets/site.d888fc6e944f.css">
 </head>
 <body class="site-page">
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html?v=e176847ca353" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=7a41189f3f6b" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html?v=e176847ca353">Home</a>
-      <a href="../projects.html?v=e176847ca353" aria-current="page">Projects</a>
-      <a href="../about.html?v=e176847ca353">About</a>
-      <a href="../resume.html?v=e176847ca353">Résumé</a>
-      <a href="../goals.html?v=e176847ca353">Career goals</a>
+      <a href="../index.html?v=7a41189f3f6b">Home</a>
+      <a href="../projects.html?v=7a41189f3f6b">Projects</a>
+      <a href="../projects/discovery.html?v=7a41189f3f6b" aria-current="page">Discovery Project</a>
+      <a href="../about.html?v=7a41189f3f6b">About</a>
+      <a href="../resume.html?v=7a41189f3f6b">Résumé</a>
+      <a href="../goals.html?v=7a41189f3f6b">Career goals</a>
     </nav>
   </header>
-<main id="main" class="content-main"><header class="page-head"><h1>Project notes</h1><p class="lede">This write-up is not published.</p><a href="../projects.html?v=e176847ca353">Browse featured projects →</a></header></main>
+<main id="main" class="content-main discovery-page">
+  <header class="page-head">
+    <p class="meta">SiliconJackets · Fall 2026</p>
+    <h1>Discovery Project</h1>
+    <p class="lede">A RISC-V CPU, from RTL to physical layout.</p>
+    <p class="discovery-summary">I built a small CPU core for SiliconJackets, verified its behavior, and took it through synthesis, placement, and routing. This project let me connect the SystemVerilog I write to the hardware it becomes.</p>
+  </header>
+  <nav class="project-index" aria-label="Discovery Project sections">
+    <a href="#idea">The idea</a><a href="#process">The process</a><a href="#results">Results &amp; roadblocks</a><a href="#skills">Skills gained</a><a href="#reflection">Looking back</a>
+  </nav>
+  <figure class="discovery-hero">
+    <a href="../assets/img/discovery-layout.png" aria-label="Open my routed layout and design-rule report at full size"><img src="../assets/img/discovery-layout.png" alt="My routed CPU layout in Cadence Virtuoso beside the Pegasus design-rule report, which lists 102 results" width="1919" height="767"></a>
+    <figcaption>My physical-design run: the routed layout alongside its design-rule check results. The layout was generated, with violations still to resolve. Select the image to inspect it at full size.</figcaption>
+  </figure>
+  <div class="discovery-story body">
+    <section id="idea">
+      <h2>The idea</h2>
+      <p>I wanted to understand what happens between describing a processor in RTL and producing a chip layout. For my Discovery Project, I used the SiliconJackets onboarding sequence to work through digital design, design verification, and physical design with the same CPU. My goal was to follow the connections between those stages and see where a design that makes sense in code runs into practical constraints.</p>
+      <p>The core implements a small RV32I-style instruction subset: arithmetic, logical shifts, word loads and stores, conditional branches, and an <code>ebreak</code> halt. It uses 32-bit data and a 32-register file, with <code>x0</code> held at zero. SiliconJackets supplied the chip-level framework, SRAMs, memory controller, and onboarding scaffolds. My work centered on implementing and integrating the CPU, checking its behavior, and running and modifying the physical-design flow.</p>
+    </section>
+    <section id="process">
+      <h2>The process</h2>
+      <h3>1. Build the core</h3>
+      <p>I connected the register file, ALU, decoder, and fetch logic with a multicycle controller. The controller moves through fetch, execute, memory-wait, and halt states. Loads wait for the SRAM response before writing back a result. The decoder extracts register addresses and sign-extends immediate values so the datapath can handle negative offsets as well as positive ones.</p>
+      <p>One issue was keeping the instruction stable between fetch and execute. I latched the instruction and program counter rather than relying on the fetch output to stay unchanged. Branches introduced another timing problem: the fetch logic was stalled during execution, so the branch decision had to survive until fetch could act on it. I registered that decision and handled the stale instruction after a taken branch.</p>
+      <h3>2. Verify behavior</h3>
+      <p>I used the SiliconJackets verification environment with Cadence Xcelium, SimVision, and IMC to exercise the CPU and inspect its behavior. The environment separates stimulus generation and driving from monitoring and scoreboard checks. That separation matters because an intended transaction is not proof that the hardware actually performed it. Waveforms made it possible to inspect memory enables, addresses, read data, and the halt signal cycle by cycle.</p>
+      <p>My IMC snapshot reports <strong>98.87% code coverage for the DUT</strong>; the overall verification-metrics average is 98.25%. These are different hierarchy-level results. Coverage helped show which implementation paths were exercised, but it does not establish correctness on its own. Expected-value checks and investigation of failures are still necessary.</p>
+      <h3>3. Take the design into a layout</h3>
+      <p>After synthesis, I used the cell-area report to size the floorplan. I accounted for two SRAM macros and their halos, targeted 50% utilization, and chose a 2:1 aspect ratio. This produced a core approximately 1,252.87 × 626.44 μm. The floorplan report returned 49.99% utilization, close to the target. I placed the macros, configured power rings, and carried the design through placement and routing in Innovus.</p>
+      <figure class="discovery-sketch">
+        <a href="../assets/img/discovery-floorplan.png" aria-label="Open my original floorplan sketch at full size"><img src="../assets/img/discovery-floorplan.png" alt="My handwritten floorplan sketch showing a rectangular core, two SRAM blocks, placement coordinates, and 21-micrometer halos" width="1025" height="823" loading="lazy"></a>
+        <figcaption>My original floorplan sketch from the physical-design submission, showing SRAM placement and the space reserved around the macros.</figcaption>
+      </figure>
+      <p>I also experimented with clock gating and high-speed cells. I wrote a Tcl procedure to sum the negative slacks returned by a timing query, then compared the results between runs. This gave me a concrete way to evaluate changes instead of assuming that a different cell choice would improve the design.</p>
+    </section>
+    <section id="results">
+      <h2>Results &amp; roadblocks</h2>
+      <p>The main success was carrying one CPU across the design, verification, and physical-design stages. I could connect a control decision in the RTL to simulation behavior and then to a timing path in the implementation. The physical results also showed me where more work was needed.</p>
+      <div class="table-wrap">
+        <table>
+          <caption>Timing results recorded in my physical-design submission</caption>
+          <thead><tr><th scope="col">Run</th><th scope="col">Worst negative slack</th><th scope="col">Reported total negative slack</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Baseline</th><td>−0.388 ns</td><td>−179.389 ns</td></tr>
+            <tr><th scope="row">Clock gating</th><td>−1.591 ns</td><td>−185.986 ns</td></tr>
+            <tr><th scope="row">High-speed cells + gating</th><td>−1.575 ns</td><td>−332.015 ns</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="discovery-detail">Negative slack indicates an unmet timing constraint. These values are the results recorded for the queried paths in each run.</p>
+      <p>Adding faster cells did not solve timing. The worst path changed after clock gating, and the high-speed-cell run only slightly improved worst slack while total negative slack worsened. That result taught me to examine the actual critical paths and constraints before deciding what to change next.</p>
+      <p>The physical checks also remained open: the DRC report showed 102 results, including 86 pin-polygon violations, and the LVS report showed 35 shorts. DRC checks layout geometry against manufacturing rules; LVS compares layout connectivity with the circuit. Reaching a routed layout was a useful milestone, but these reports did not establish a clean, fabrication-ready design. Resolving those issues and closing timing would be the next implementation work.</p>
+    </section>
+    <section id="skills">
+      <h2>ECE skills I gained</h2>
+      <ul>
+        <li><strong>RTL integration:</strong> connecting datapath modules, managing state, and aligning control signals with memory latency.</li>
+        <li><strong>Verification and debugging:</strong> reading waveforms, separating stimulus from observations, and interpreting coverage at the correct hierarchy.</li>
+        <li><strong>Physical design:</strong> calculating a floorplan, placing SRAM macros, reserving halos, and configuring power distribution.</li>
+        <li><strong>Timing analysis and Tcl:</strong> comparing critical paths, extracting slack values, and evaluating implementation changes from reports.</li>
+        <li><strong>Physical verification:</strong> distinguishing design-rule violations from connectivity mismatches and recognizing what remains before signoff.</li>
+      </ul>
+    </section>
+    <section id="reflection">
+      <h2>Looking back</h2>
+      <p>This project reinforced my interest in the RTL-to-GDSII process. The part I found most useful was seeing how each stage changes the questions I need to ask: whether an instruction executes correctly, whether the tests observe enough, and whether the physical implementation meets its constraints. A successful simulation and a successful physical implementation require different evidence.</p>
+      <p>My threads are Circuit Technology and Electronic Devices, and this experience helped me focus that interest on digital implementation. I’m also interested in FPGAs, where I can keep exploring how RTL becomes working hardware. If I continue this CPU, I would start with the remaining timing and physical-verification issues, make one targeted change at a time, and compare the new reports against this baseline.</p>
+    </section>
+  </div>
+</main>
 <footer class="site-footer"><span>Ryu · Electrical engineering</span><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></footer>
 </div>
 </body>
