@@ -3,32 +3,102 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About — Hardware & software</title>
-  <meta name="description" content="Background in digital design, FPGA development, GPU simulation, and ASIC implementation.">
+  <title>About Ryu — Electrical engineering</title>
+  <meta name="description" content="First-year electrical engineering student studying Circuit Technology and Electronic Devices. Education, skills, and experience.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="profile-page">
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header"><div class="wrap"><a class="wordmark" href="index.html">Hardware &amp; software</a><nav class="site-nav" aria-label="Main"><a href="index.html">Home</a><a href="projects.html">Projects</a><a href="about.html" aria-current="page">About</a><a href="resume.html">Résumé</a><a href="goals.html">Career goals</a></nav></div></header>
-<main id="main" class="wrap">
-<header class="page-head"><h1>About me</h1><p class="lede">I’m an electrical engineering student working on digital hardware: processors, FPGA architectures, and the software used to simulate and implement them.</p></header>
-<div class="prose body">
-<h2>Starting with a processor</h2>
-<p>My projects have grown out of specific technical questions. For the 16-bit CPU, the question was how to turn an instruction set into a working processor. I designed a 12-instruction ISA, wrote a Python assembler, and implemented a five-stage pipeline in SystemVerilog. Forwarding, load-use stalls, and branch flushing became concrete problems to solve rather than just names in an architecture diagram.</p>
-<p>Getting the CPU onto an FPGA added another set of problems. A memory address that was too wide caused synthesis to attempt an enormous multiplexer. A simulation-only initialization block left memory uninitialized on hardware. Working through those failures was part of getting a Fibonacci program running on a Tang Nano 9K, with its output shown on two seven-segment displays.</p>
-<p>That project gave me an interest in the whole path from a design decision to observable behavior. I wanted to understand both the processor’s structure and how to check that it was doing what I intended.</p>
-<h2>Following the question into software</h2>
-<p>The CPU then became the test circuit for my CUDA logic simulator. I used Yosys to turn it into a netlist of 20,170 gates and 8,676 flip-flops, organized the gates by their dependencies, and built CPU and GPU execution paths. The first GPU implementation spent too much time launching kernels. Moving the simulation into one persistent kernel reduced GPU runtime by 4.7 times and brought it to about twice the speed of the CPU at 100,000 cycles.</p>
-<p>Performance was only one part of that work. Wire-name collisions in the flattened netlist caused nondeterministic GPU results. After fixing the naming step, I compared the final state of every signal between the CPU and GPU. That experience reinforced the need to establish correctness before treating a faster runtime as a useful result.</p>
-<h2>Working in larger design flows</h2>
-<p>My research work extends that interest to 3D FPGAs. I prototyped a configurable logic block with ten LUTs split across two die layers, changing VTR’s architecture parsing and placement and OpenFPGA’s RTL generation. I also took a single-die baseline through synthesis and place-and-route in OpenROAD, checking the RTL and resulting netlists with functional simulation.</p>
-<p>On a student ASIC design team, I have worked on an RV32I-subset processor, class-based verification, and a Sky130 physical-design flow. That work includes coverage analysis, SRAM macro placement, timing analysis, clock gating, and DRC/LVS debugging. It has given me practice reading evidence from several tools and tracing a failure back to the design or constraints that produced it.</p>
-<h2>Beyond the processor</h2>
-<p>I also work on embedded systems. On a four-person posture-wearable project, I owned the ESP32 hardware and firmware: bringing up a BNO055 motion sensor, calibrating an upright baseline, filtering brief movements, and sending posture data over BLE. The project required a clear interface between firmware and the web dashboard my teammates built.</p>
-<p>An earlier IT internship involved migrating approximately twenty workstations to Windows 11 and configuring hardware firewalls. Across these experiences, the work I want to keep doing is hands-on and specific: build a system, measure its behavior, and use those results to decide what to improve next.</p>
-<p><a href="projects.html">Read the project write-ups</a> or <a href="resume.html">view my résumé</a>.</p>
-</div></main>
-<footer class="site-footer"><div class="wrap"><a href="projects.html">Projects</a><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></div></footer>
+<div class="profile-shell">
+  <header class="welcome-header">
+    <a class="welcome-brand" href="index.html" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a href="resume.html">Résumé</a>
+      <a href="goals.html">Career goals</a>
+    </nav>
+  </header>
+  <main id="main">
+    <header class="profile-intro">
+      <p class="welcome-eyebrow">A little about me</p>
+      <h1>About me.</h1>
+      <p>I’m Ryu, a first-year electrical engineering student. My threads are Circuit Technology and Electronic Devices, and I’m interested in digital design, computer architecture, and the physical implementation of circuits.</p>
+    </header>
+    <div class="profile-body">
+      <aside class="education-panel" aria-labelledby="education">
+        <h2 id="education">Education</h2>
+        <p class="degree">B.S. Electrical Engineering</p>
+        <p class="education-year">First year · In progress</p>
+        <h3>My threads</h3>
+        <ul class="thread-list">
+          <li>Circuit Technology</li>
+          <li>Electronic Devices</li>
+        </ul>
+        <h3>Relevant coursework</h3>
+        <ul class="course-list">
+          <li>Digital System Design</li>
+          <li>Object-Oriented Programming</li>
+          <li>Discrete Math</li>
+          <li>Linear Algebra</li>
+        </ul>
+      </aside>
+      <div class="profile-content">
+        <section aria-labelledby="interests">
+          <h2 id="interests">What interests me</h2>
+          <p>I want to understand how decisions at different levels of a design affect each other: how a logic function becomes a circuit, how that circuit behaves, and how its implementation affects timing, area, and power. Circuit Technology and Electronic Devices give me a direction for exploring those connections.</p>
+          <p>My experience so far is mostly in digital hardware, verification, and design tools. I enjoy tracing an unexpected result back to its cause, whether that means reading a waveform, inspecting generated RTL, or following a timing path. I want to keep strengthening my circuits and device fundamentals alongside that practical work.</p>
+        </section>
+        <section class="profile-section" aria-labelledby="skills">
+          <h2 id="skills">Skills</h2>
+          <p class="section-description">Languages, tools, and methods I’ve used in coursework and technical work.</p>
+          <dl class="skill-list">
+            <div><dt>Programming</dt><dd>C, C++, CUDA, Python, Tcl, MATLAB, Java</dd></div>
+            <div><dt>Hardware design</dt><dd>SystemVerilog, Verilog, RTL design, finite-state machines, FPGA implementation</dd></div>
+            <div><dt>Verification</dt><dd>Class-based testbenches, constrained-random testing, SystemVerilog Assertions, code coverage, GTKWave</dd></div>
+            <div><dt>Design tools</dt><dd>Cadence Innovus, Xcelium, IMC, Pegasus, Virtuoso; Synopsys Design Compiler; OpenROAD, Yosys, VTR, OpenFPGA</dd></div>
+            <div><dt>Embedded systems</dt><dd>ESP32, Tang Nano 9K, SPI, I²C, BLE, sensor integration</dd></div>
+            <div><dt>Development</dt><dd>Git, Linux, scripting, and build and test automation</dd></div>
+          </dl>
+        </section>
+        <section class="profile-section" aria-labelledby="experience">
+          <h2 id="experience">Experience &amp; activities</h2>
+          <article class="experience-entry upcoming-experience">
+            <p class="experience-date">Starting Spring 2027 · Full-time · Incoming</p>
+            <h3>ECE Intern — GTRI</h3>
+            <p>I’ll be joining the Information and Communications Laboratory at the Georgia Tech Research Institute (GTRI), in the Communications Systems and Spectrum Division (CSSD). My planned focus is FPGAs and RF systems.</p>
+            <p>The role will involve design and integration, testing and assessment, and developing software for radio-hardware control. Planned responsibilities include building and testing software and hardware for 5G and embedded systems, working across application, network, and physical layers, and documenting the team’s work.</p>
+          </article>
+          <article class="experience-entry">
+            <p class="experience-date">Aug 2026 – Present</p>
+            <h3>Undergraduate research</h3>
+            <p>My research work involves 3D FPGA architectures and the tools that describe and implement them. I work with VTR and OpenFPGA, modify architecture parsing and RTL generation, and check the resulting designs through simulation and implementation flows.</p>
+            <p>Working in a large codebase has given me practice narrowing down failures, understanding assumptions in existing code, and validating changes across multiple stages of a toolchain. I’m learning to document not only the result, but also the conditions under which it holds.</p>
+          </article>
+          <article class="experience-entry">
+            <p class="experience-date">Sep 2026 – Present</p>
+            <h3>ASIC physical design team</h3>
+            <p>On a student design team, I work across RTL design, verification, synthesis, and physical implementation. My experience includes class-based verification in Cadence Xcelium, coverage analysis in IMC, and a Sky130 implementation flow using Synopsys Design Compiler and Cadence Innovus.</p>
+            <p>I’ve also worked on timing-analysis automation, clock gating, and DRC/LVS debugging. These tasks have helped me connect logical behavior with physical constraints and understand why a design needs several different kinds of checks.</p>
+          </article>
+          <article class="experience-entry">
+            <p class="experience-date">Sep 2026</p>
+            <h3>Hackathon teamwork</h3>
+            <p>On a four-person team, I was responsible for hardware and embedded firmware. I worked with motion sensing, on-device classification, and BLE communication while teammates developed the web application. Agreeing on the data interface early helped us develop and integrate the pieces together.</p>
+          </article>
+          <article class="experience-entry">
+            <p class="experience-date">May – Aug 2025</p>
+            <h3>IT internship</h3>
+            <p>I helped migrate approximately twenty workstations to Windows 11 and configured hardware firewalls to enforce network security policy. The work gave me practical experience with system setup, troubleshooting, and supporting the hardware and software people use every day.</p>
+          </article>
+        </section>
+        <a class="read-link" href="resume.html">View my résumé <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </main>
+  <footer class="profile-footer"><span>Ryu · Electrical engineering</span><nav aria-label="Social links"><a href="https://www.linkedin.com/in/ryutran">LinkedIn</a><a href="https://github.com/goshoryuken">GitHub</a></nav></footer>
+</div>
 </body>
 </html>
