@@ -12,14 +12,14 @@
 <a class="skip" href="#main">Skip to content</a>
 <div class="site-shell">
 <header class="welcome-header">
-    <a class="welcome-brand" href="../index.html?v=a642b0ade054" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
+    <a class="welcome-brand" href="../index.html?v=eaf188924f0f" aria-label="Ryu — Home"><span class="initial" aria-hidden="true">r.</span><span>Ryu<span class="brand-caption">Personal portfolio</span></span></a>
     <nav class="site-nav" aria-label="Main">
-      <a href="../index.html?v=a642b0ade054">Home</a>
-      <a href="../projects.html?v=a642b0ade054">Projects</a>
-      <a href="../projects/discovery.html?v=a642b0ade054" aria-current="page">Discovery Project</a>
-      <a href="../about.html?v=a642b0ade054">About</a>
-      <a href="../resume.html?v=a642b0ade054">Résumé</a>
-      <a href="../goals.html?v=a642b0ade054">Career goals</a>
+      <a href="../index.html?v=eaf188924f0f">Home</a>
+      <a href="../projects.html?v=eaf188924f0f">Projects</a>
+      <a href="../projects/discovery.html?v=eaf188924f0f" aria-current="page">Discovery Project</a>
+      <a href="../about.html?v=eaf188924f0f">About</a>
+      <a href="../resume.html?v=eaf188924f0f">Résumé</a>
+      <a href="../goals.html?v=eaf188924f0f">Career goals</a>
     </nav>
   </header>
 <main id="main" class="content-main discovery-page">
@@ -50,6 +50,10 @@
       <h3>2. Verify behavior</h3>
       <p>I used the SiliconJackets verification environment with Cadence Xcelium, SimVision, and IMC to exercise the CPU and inspect its behavior. The environment separates stimulus generation and driving from monitoring and scoreboard checks. That separation matters because an intended transaction is not proof that the hardware actually performed it. Waveforms made it possible to inspect memory enables, addresses, read data, and the halt signal cycle by cycle.</p>
       <p>My IMC snapshot reports <strong>98.87% code coverage for the DUT</strong>; the overall verification-metrics average is 98.25%. These are different hierarchy-level results. Coverage helped show which implementation paths were exercised, but it does not establish correctness on its own. Expected-value checks and investigation of failures are still necessary.</p>
+      <figure>
+        <a href="../assets/img/discovery-imc-coverage.png" aria-label="Open the Cadence IMC code-coverage screenshot at full size"><img src="../assets/img/discovery-imc-coverage.png" alt="Cadence IMC coverage hierarchy showing 98.87 percent for the DUT and a 98.25 percent overall verification-metrics average" width="1190" height="715" loading="lazy"></a>
+        <figcaption>My Cadence IMC coverage report: 98.87% at <code>cpu_tb_top.dut</code>, with an overall verification-metrics average of 98.25%. These simulation coverage results are separate from physical timing closure. Select the image to inspect it at full size.</figcaption>
+      </figure>
       <h3>3. Take the design into a layout</h3>
       <p>After synthesis, I used the cell-area report to size the floorplan. I accounted for two SRAM macros and their halos, targeted 50% utilization, and chose a 2:1 aspect ratio. This produced a core approximately 1,252.87 × 626.44 μm. The floorplan report returned 49.99% utilization, close to the target. I placed the macros, configured power rings, and carried the design through placement and routing in Innovus.</p>
       <figure class="discovery-sketch">
