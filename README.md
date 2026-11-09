@@ -36,18 +36,11 @@ Do not publish the raw submission PDF or source attachments with personal detail
 
 ## Profile photo
 
-The homepage reserves a circular photo spot beside the introduction (above it on
-mobile). To add a portrait, put the photo in `assets/img/`, replace the contents
-of `.portrait-slot` in `index.html` with an image, and remove the placeholder's
-`role` and `aria-label` attributes:
-
-```html
-<div class="portrait-slot">
-  <img src="assets/img/profile.jpg" alt="Ryu" width="112" height="112">
-</div>
-```
-
-Use the actual image filename; the frame crops it to fit without stretching.
+The homepage uses `assets/img/profile.jpeg` inside the circular `.portrait-slot`.
+Replace that file and update the image dimensions and alt text in `index.html`
+when changing the portrait. Adjust `object-position` in `assets/site.css` to
+position the photo in its frame. Remove location and device metadata before
+publishing a replacement; keep the original image pixels intact.
 
 ## Publish
 
